@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MyFinances.Core.Aggregates.ScheduleAggregate
 {
-    public class MoneyTransaction : BaseEntity<Guid>
+    public class Transaction : BaseEntity<Guid>
     {
-        public MoneyTransaction(decimal value, DateTime estimatedDate, bool isConfirmed, int categoryId)
+        public Transaction(decimal value, DateTime estimatedDate, bool isConfirmed, int categoryId)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
             EstimatedDate = Guard.Against.Default(estimatedDate, nameof(EstimatedDate));
@@ -21,7 +21,11 @@ namespace MyFinances.Core.Aggregates.ScheduleAggregate
         public DateTime EstimatedDate { get; private set; }
         public DateTime ConfirmedDate { get; private set; }
         public bool IsConfirmed { get; private set; }
+        public bool AutoConfirmOnEstimatedDate { get; private set; }
         public int CategoryId { get; private set; }
+        public Guid OriginalTransactionId { get; private set; }
+
+        public Recurrence Recurrence { get; private set; }
 
         public void Confirm()
         {

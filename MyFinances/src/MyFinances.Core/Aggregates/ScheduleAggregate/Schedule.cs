@@ -11,13 +11,26 @@ namespace MyFinances.Core.Aggregates.ScheduleAggregate
     {
         public int HouseholdId { get; set; }
 
-        private readonly List<MoneyTransaction> _transactions = new();
-        public IReadOnlyCollection<MoneyTransaction> Transactions => _transactions.AsReadOnly();
+        private readonly List<Transaction> _transactions = new();
+        public IReadOnlyCollection<Transaction> Transactions => _transactions.AsReadOnly();
 
-        public MoneyTransaction AddNewTransaction(MoneyTransaction transaction)
+        public List<Transaction> AddTransaction(Transaction transaction)
         {
             _transactions.Add(transaction);
-            return transaction;
+
+            if(transaction.Recurrence != null)
+            {
+                DateTime nextInsertDate;
+                do
+                {
+                    nextInsertDate = transaction.EstimatedDate.AddDays(transaction.Recurrence.DaysInterval);
+                    var newTransaction = new Transaction(transaction.Value, nextInsertDate, false, transaction.CategoryId);
+                    _transactions.Add(newTransaction);
+                }
+                while (nextInsertDate <= transaction.Recurrence.InsertUntil);
+            }
+
+            return _transactions;
         }
     }
 }
