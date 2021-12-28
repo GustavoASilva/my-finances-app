@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyFinances.Core.Aggregates
+namespace MyFinances.Core.Aggregates.HouseholdAggregate
 {
-    public class Transaction : BaseEntity<Guid>, IAggregateRoot
+    public class Transaction : BaseEntity<Guid>
     {
         public Transaction(decimal value,
                            DateTime estimatedDate,
@@ -21,8 +21,15 @@ namespace MyFinances.Core.Aggregates
 
         public decimal Value { get; private set; }
         public DateTime EstimatedDate { get; private set; }
-
+        public DateTime? ConfirmedDate { get; private set; }
         public int TransactionCategoryId { get; private set; }
         public int HouseholdId { get; private set; }
+
+        public void Confirm()
+        {
+            if (ConfirmedDate != null) return;
+
+            ConfirmedDate = DateTime.Now;
+        }
     }
 }
