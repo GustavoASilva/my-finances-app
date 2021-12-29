@@ -42,6 +42,10 @@ namespace MyFinances.API.Controllers
 
             var created = household.AddNewTransaction(toModel);
 
+            await _householdRepository.UpdateAsync(household);
+
+            await _householdRepository.SaveChangesAsync();
+
             return CreatedAtAction(nameof(Get), created);
         }
     }

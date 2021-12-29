@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MyFinances.Infra.Repositories
 {
-    public class EfRepository<T> : RepositoryBase<T> where T : class, IAggregateRoot
+    public class EfRepository<T> : RepositoryBase<T>, IRepository<T> where T : class, IAggregateRoot
     {
-        public EfRepository(DbContext dbContext) : base(dbContext)
+        public EfRepository(AppDbContext dbContext) : base(dbContext)
         {
         }
     }

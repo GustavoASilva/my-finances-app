@@ -14,6 +14,7 @@ namespace MyFinances.Infra.Configurations
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
             builder.HasKey(t => t.Id);
+            builder.HasOne<Household>().WithMany(x => x.Transactions).HasForeignKey(x => x.HouseholdId);
         }
     }
 }

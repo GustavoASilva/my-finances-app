@@ -7,9 +7,10 @@ using MyFinances.Infra.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer("localhost;"));
-
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer("Server=localhost;Database=MyFinances;User Id=sa;Password=G3g3@2021!;"));
+
 builder.Services.AddAutoMapper(typeof(TransactionProfile));
 
 builder.Services.AddControllers();

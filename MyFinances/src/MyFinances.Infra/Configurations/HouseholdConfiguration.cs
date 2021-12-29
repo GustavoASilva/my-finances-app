@@ -14,7 +14,6 @@ namespace MyFinances.Infra.Configurations
         public void Configure(EntityTypeBuilder<Household> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasMany<Transaction>();
         }
     }
 }

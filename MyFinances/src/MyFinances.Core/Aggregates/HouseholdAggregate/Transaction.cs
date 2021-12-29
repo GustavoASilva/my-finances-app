@@ -10,6 +10,10 @@ namespace MyFinances.Core.Aggregates.HouseholdAggregate
 {
     public class Transaction : BaseEntity<Guid>
     {
+        public Transaction()
+        {
+        }
+
         public Transaction(decimal value,
                            DateTime estimatedDate,
                            int transactionCategoryId)
