@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Core", "src\MyFi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Infra", "src\MyFinances.Infra\MyFinances.Infra.csproj", "{E3D014D7-9E11-49C0-8C53-0B716A779576}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.API", "src\MyFinances.API\MyFinances.API.csproj", "{934D1F03-E302-4ED4-B6F2-1DF188CF989C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.API", "src\MyFinances.API\MyFinances.API.csproj", "{934D1F03-E302-4ED4-B6F2-1DF188CF989C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.Tests", "src\MyFinances.Tests\MyFinances.Tests.csproj", "{3B40F143-C65F-479C-8F9B-9042DD57652B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Tests", "src\MyFinances.Tests\MyFinances.Tests.csproj", "{3B40F143-C65F-479C-8F9B-9042DD57652B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.Blazor.Client", "src\MyFinances.Blazor\Client\MyFinances.Blazor.Client.csproj", "{79D104B6-8C4D-484E-ABBE-40EAEFA0A1B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.Blazor.Shared", "src\MyFinances.Blazor\Shared\MyFinances.Blazor.Shared.csproj", "{F60B225C-C642-4232-B9CB-26EA816A217C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D104B6-8C4D-484E-ABBE-40EAEFA0A1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D104B6-8C4D-484E-ABBE-40EAEFA0A1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D104B6-8C4D-484E-ABBE-40EAEFA0A1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D104B6-8C4D-484E-ABBE-40EAEFA0A1B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60B225C-C642-4232-B9CB-26EA816A217C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60B225C-C642-4232-B9CB-26EA816A217C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60B225C-C642-4232-B9CB-26EA816A217C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60B225C-C642-4232-B9CB-26EA816A217C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
