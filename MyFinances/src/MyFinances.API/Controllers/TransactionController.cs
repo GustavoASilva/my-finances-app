@@ -36,7 +36,8 @@ namespace MyFinances.API.Controllers
         public async Task<IActionResult> Post([FromBody] AddNewTransactionRequest transaction)
         {
             var toModel = _mapper.Map<Transaction>(transaction);
-            transaction.HouseholdId = 1;
+            toModel.SetHouseholdId(1);
+
             var created = await _transactionRepository.AddAsync(toModel);
 
             await _transactionRepository.SaveChangesAsync();

@@ -8,6 +8,7 @@
 
         public decimal Value { get; set; }
         public DateTime EstimatedDate { get; set; }
+        public DateTime ConfirmedDate { get; set; }
         public bool IsConfirmed { get; set; }
     }
 }

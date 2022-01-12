@@ -15,7 +15,7 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
             {
                 EstimatedDate = model.EstimatedDate,
                 Value = model.Value,
-                ConfirmedDate = model.IsConfirmed ? model.EstimatedDate : null
+                ConfirmedDate = model.ConfirmedDate
             };
 
             HttpClient client = new HttpClient();

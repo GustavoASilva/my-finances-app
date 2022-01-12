@@ -12,7 +12,7 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
             HttpClient client = new HttpClient();
             using (client)
             {
-                var response = await client.GetAsync("https://localhost:7073/api/Transaction?DateTimeRange.Start=11%20Jan%202022%2001%3A41%3A21%20GMT%20&DateTimeRange.End=12%20Jan%202022%2001%3A41%3A21%20GMT%20");
+                var response = await client.GetAsync("https://localhost:7073/api/Transaction?DateTimeRange.Start=10%20Jan%202022%2001%3A41%3A21%20GMT%20&DateTimeRange.End=13%20Jan%202022%2001%3A41%3A21%20GMT%20");
                 var responseContent = await response.Content.ReadAsStreamAsync();
 
                 var opt = new JsonSerializerOptions()

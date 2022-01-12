@@ -30,5 +30,10 @@ namespace MyFinances.Core.SyncedAggregates
 
             ConfirmedDate = DateTime.Now;
         }
+
+        public void SetHouseholdId(int householdId)
+        {
+            HouseholdId=householdId;
+        }
     }
 }

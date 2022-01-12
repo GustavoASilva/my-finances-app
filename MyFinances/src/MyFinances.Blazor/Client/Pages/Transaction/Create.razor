@@ -7,5 +7,10 @@
     <InputDate  @bind-Value="model.EstimatedDate" />
     <InputCheckbox @bind-Value="model.IsConfirmed" />
 
+    @if (model.IsConfirmed)
+    {
+        <InputDate @bind-Value="model.ConfirmedDate" />    
+    }
+
     <button type="submit">Submit</button>
 </EditForm>
