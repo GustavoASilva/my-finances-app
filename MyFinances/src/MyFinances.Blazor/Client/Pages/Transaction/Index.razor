@@ -1,0 +1,25 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Valor</th>
+            <th>Categoria</th>
+            <th>Data Estimada</th>
+            <th>Data Confirmada</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach(var transaction in transactions)
+    {
+        <tr>
+            <td>@transaction.Value</td>
+            <td>@transaction.Category</td>
+            <td>@transaction.EstimatedDate</td>
+            <td>@transaction.ConfirmedDate</td>
+        </tr>
+    }
+    </tbody>
+</table>

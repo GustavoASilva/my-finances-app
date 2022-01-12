@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  myfinances.api:
+    image: ${DOCKER_REGISTRY-}myfinancesapi
+    build:
+      context: .
+      dockerfile: src/MyFinances.API/Dockerfile
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+    - 1433:1433
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=G3g3@2021!
+    - MSSQL_PID=Developer
+    container_name: sqlserver

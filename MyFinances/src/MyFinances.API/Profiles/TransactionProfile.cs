@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyFinances.API.Dtos;
-using MyFinances.Core.Aggregates.HouseholdAggregate;
+using MyFinances.Blazor.Shared;
+using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.API.Profiles
 {
@@ -9,6 +10,7 @@ namespace MyFinances.API.Profiles
         public TransactionProfile()
         {
             CreateMap<AddNewTransactionRequest, Transaction>().ReverseMap();
+            CreateMap<GetTransactionsInRangeResponse, Transaction>().ReverseMap();
         }
     }
 }

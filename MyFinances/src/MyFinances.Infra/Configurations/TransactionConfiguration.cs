@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyFinances.Core.Aggregates.HouseholdAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.Infra.Configurations
 {
@@ -14,7 +9,6 @@ namespace MyFinances.Infra.Configurations
         public void Configure(EntityTypeBuilder<Transaction> builder)
         {
             builder.HasKey(t => t.Id);
-            builder.HasOne<Household>().WithMany(x => x.Transactions).HasForeignKey(x => x.HouseholdId);
         }
     }
 }

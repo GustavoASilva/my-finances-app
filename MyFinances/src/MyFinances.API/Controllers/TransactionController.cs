@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.API.Dtos;
-using MyFinances.Core.Aggregates.HouseholdAggregate;
-using MyFinances.Core.Aggregates.HouseholdAggregate.Specifications;
+using MyFinances.Blazor.Shared;
 using MyFinances.Core.Interfaces;
+using MyFinances.Core.SyncedAggregates;
+using MyFinances.Core.SyncedAggregates.Specifications;
 
 namespace MyFinances.API.Controllers
 {
@@ -12,39 +12,34 @@ namespace MyFinances.API.Controllers
     [ApiController]
     public class TransactionController : ControllerBase
     {
-        private readonly IRepository<Household> _householdRepository;
+        private readonly IRepository<Transaction> _transactionRepository;
         private IMapper _mapper;
 
-        public TransactionController(IRepository<Household> householdRepository, IMapper mapper)
+        public TransactionController(IRepository<Transaction> transactionRepository, IMapper mapper)
         {
-            _householdRepository = householdRepository ?? throw new ArgumentNullException(nameof(householdRepository));
+            _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] int householdId)
+        public async Task<IActionResult> Get([FromQuery] GetTransactionsInRangeRequest request)
         {
-            var spec = new HouseholdByIdWithTransactionsSpec(householdId);
-            var household = await _householdRepository.GetBySpecAsync(spec);
+            var spec = new TransactionsByHouseholdIdAndDateRangeSpec(1, request.DateTimeRange);
             
-            if (household == null) return NotFound();
+            var transactions = await _transactionRepository.ListAsync(spec);
 
-            return Ok(household?.Transactions);
+            _mapper.Map<List<GetTransactionsInRangeResponse>>(transactions);
+            return Ok(transactions);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AddNewTransactionRequest transaction)
         {
-            var household = await _householdRepository.GetByIdAsync(transaction.HouseholdId);
-            if (household == null) return BadRequest();
-
             var toModel = _mapper.Map<Transaction>(transaction);
+            transaction.HouseholdId = 1;
+            var created = await _transactionRepository.AddAsync(toModel);
 
-            var created = household.AddNewTransaction(toModel);
-
-            await _householdRepository.UpdateAsync(household);
-
-            await _householdRepository.SaveChangesAsync();
+            await _transactionRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(Get), created);
         }

@@ -1,0 +1,11 @@
+﻿@page "/create"
+<EditForm Model="@model" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputNumber  @bind-Value="model.Value" />
+    <InputDate  @bind-Value="model.EstimatedDate" />
+    <InputCheckbox @bind-Value="model.IsConfirmed" />
+
+    <button type="submit">Submit</button>
+</EditForm>

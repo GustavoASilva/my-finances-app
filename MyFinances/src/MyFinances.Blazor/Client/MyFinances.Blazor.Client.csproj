@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Shared\MyFinances.Blazor.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\Components\" />
-  </ItemGroup>
-
 </Project>

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyFinances.Core.Aggregates;
-using MyFinances.Core.Aggregates.HouseholdAggregate;
+using MyFinances.Core.SyncedAggregates;
 using System.Reflection;
 
 namespace MyFinances.Infra
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Household> Households { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         public AppDbContext(DbContextOptions options) : base(options)
         {
