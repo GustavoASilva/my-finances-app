@@ -24,16 +24,14 @@ namespace MyFinances.Core.SyncedAggregates
         public Category Category { get; private set; }
         public int HouseholdId { get; private set; }
 
-        public void Confirm()
+        public void SetConfirmedDate(DateTime confirmedDate)
         {
-            if (ConfirmedDate != null) return;
-
-            ConfirmedDate = DateTime.Now;
+            ConfirmedDate = confirmedDate;
         }
 
         public void SetHouseholdId(int householdId)
         {
-            HouseholdId=householdId;
+            HouseholdId = householdId;
         }
     }
 }

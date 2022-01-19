@@ -33,7 +33,7 @@ namespace MyFinances.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddNewTransactionRequest transaction)
+        public async Task<IActionResult> Post([FromBody] CreateTransactionRequest transaction)
         {
             var toModel = _mapper.Map<Transaction>(transaction);
             toModel.SetHouseholdId(1);
@@ -43,6 +43,34 @@ namespace MyFinances.API.Controllers
             await _transactionRepository.SaveChangesAsync();
 
             return CreatedAtAction(nameof(Get), created);
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateTransactionRequest transaction)
+        {
+            var toModel = _mapper.Map<Transaction>(transaction);
+            toModel.SetHouseholdId(1);
+            toModel.Id = id;
+
+            await _transactionRepository.UpdateAsync(toModel);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] PatchTransactionRequest patch)
+        {
+            var transaction = await _transactionRepository.GetByIdAsync(id);
+
+            if (transaction == null)
+                return NotFound();
+
+            transaction.SetConfirmedDate(patch.ConfirmedDate);
+
+            await _transactionRepository.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

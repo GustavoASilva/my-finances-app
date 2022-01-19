@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyFinances.Core.SyncedAggregates
+namespace MyFinances.Blazor.Shared
 {
-    public enum Category
+    public class PatchTransactionRequest
     {
-        Food,
-        Market,
-        Salary
+        public DateTime ConfirmedDate { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 
         private  async Task HandleValidSubmit()
         {
-            var requestModel = new AddNewTransactionRequest()
+            var requestModel = new CreateTransactionRequest()
             {
                 EstimatedDate = model.EstimatedDate,
                 Value = model.Value,

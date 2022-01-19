@@ -9,7 +9,9 @@ namespace MyFinances.API.Profiles
     {
         public TransactionProfile()
         {
-            CreateMap<AddNewTransactionRequest, Transaction>().ReverseMap();
+            CreateMap<CreateTransactionRequest, Transaction>().ReverseMap();
+            CreateMap<UpdateTransactionRequest, Transaction>().ReverseMap();
+            CreateMap<PatchTransactionRequest, Transaction>().ReverseMap();
             CreateMap<GetTransactionsInRangeResponse, Transaction>().ReverseMap();
         }
     }
