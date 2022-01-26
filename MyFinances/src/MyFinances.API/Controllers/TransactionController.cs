@@ -72,5 +72,18 @@ namespace MyFinances.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var transaction = await _transactionRepository.GetByIdAsync(id);
+
+            if (transaction == null)
+                return NotFound();
+
+            await _transactionRepository.DeleteAsync(transaction);
+
+            return NoContent();
+        }
     }
 }

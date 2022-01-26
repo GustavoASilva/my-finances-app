@@ -24,6 +24,8 @@ namespace MyFinances.Core.SyncedAggregates
         public Category Category { get; private set; }
         public int HouseholdId { get; private set; }
 
+        public int OriginId { get; private set; }
+
         public void SetConfirmedDate(DateTime confirmedDate)
         {
             ConfirmedDate = confirmedDate;
