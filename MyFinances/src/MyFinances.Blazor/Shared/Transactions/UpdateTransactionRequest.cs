@@ -13,5 +13,6 @@ namespace MyFinances.Blazor.Shared.Transactions
         public DateTime EstimatedDate { get; set; }
         public DateTime? ConfirmedDate { get; set; }
         public Category Category { get; set; }
+        public int OriginId { get; set; }
     }
 }

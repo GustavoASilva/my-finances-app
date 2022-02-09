@@ -16,5 +16,7 @@ namespace MyFinances.Blazor.Shared.Transactions
         public Category Category { get; set; }
 
         public int InstallmentsNumber { get; set; }
+
+        public int OriginId { get; set; }
     }
 }
