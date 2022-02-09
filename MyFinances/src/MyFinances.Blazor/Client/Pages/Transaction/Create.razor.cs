@@ -1,4 +1,5 @@
-﻿using MyFinances.Blazor.Client.Models;
+﻿using Microsoft.AspNetCore.Components;
+using MyFinances.Blazor.Client.Models;
 using MyFinances.Blazor.Shared.Transactions;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -7,7 +8,10 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 {
     public partial class Create
     {
-        private TransactionCreate model = new();
+        [Inject]
+        public HttpClient httpClient { get; private set; }
+
+        public TransactionCreate model = new();
 
         private  async Task HandleValidSubmit()
         {
@@ -17,16 +21,12 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
                 Value = model.Value,
                 ConfirmedDate = model.ConfirmedDate
             };
+        
+            HttpContent httpContent = new StringContent(JsonSerializer.Serialize(requestModel));
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpClient client = new HttpClient();
-            using (client)
-            {
-                HttpContent httpContent = new StringContent(JsonSerializer.Serialize(requestModel));
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await httpClient.PostAsync("/Transaction", httpContent);
 
-                var response = await client.PostAsync("https://localhost:7073/api/Transaction", httpContent);
-
-            }
         }
     }
 }

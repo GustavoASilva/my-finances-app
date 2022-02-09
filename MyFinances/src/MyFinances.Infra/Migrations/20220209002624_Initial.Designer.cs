@@ -11,8 +11,8 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220131214042_Origin-Entity-Relationship")]
-    partial class OriginEntityRelationship
+    [Migration("20220209002624_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

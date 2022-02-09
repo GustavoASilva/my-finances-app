@@ -3,14 +3,33 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <InputNumber  @bind-Value="model.Value" />
-    <InputDate  @bind-Value="model.EstimatedDate" />
-    <InputCheckbox @bind-Value="model.IsConfirmed" />
+    <div class="form-group">
+        <label>
+            Valor
+        </label>
+        <InputNumber class="form-control" @key="model.Value" @bind-Value="model.Value" />
+    </div>
+
+    <div class="form-group">
+        <label>
+            Data estimada
+        </label>
+
+        <InputDate class="form-control" @bind-Value="model.EstimatedDate" />
+    </div>
+
+    <div class="form-check">
+        <InputCheckbox class="form-check-input" @bind-Value="model.IsConfirmed" />
+        <label class="form-check-label" for="@model.IsConfirmed"> Está confirmada ? </label>
+    </div>
 
     @if (model.IsConfirmed)
     {
-        <InputDate @bind-Value="model.ConfirmedDate" />    
+        <div class="form-group">
+            <label> Data de confirmação</label>
+            <InputDate class="form-control" @bind-Value="model.ConfirmedDate" />
+        </div>
     }
 
-    <button type="submit">Submit</button>
+    <button class="btn btn-success" type="submit">Submit</button>
 </EditForm>
