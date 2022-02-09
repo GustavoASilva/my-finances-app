@@ -35,5 +35,10 @@ namespace MyFinances.Core.SyncedAggregates
         {
             HouseholdId = householdId;
         }
+
+        public void SetEstimatedDate(DateTime estimatedDate)
+        {
+            EstimatedDate = estimatedDate;
+        }
     }
 }

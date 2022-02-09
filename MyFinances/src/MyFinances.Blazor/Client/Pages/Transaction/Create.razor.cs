@@ -1,5 +1,5 @@
 ﻿using MyFinances.Blazor.Client.Models;
-using MyFinances.Blazor.Shared;
+using MyFinances.Blazor.Shared.Transactions;
 using System.Net.Http.Headers;
 using System.Text.Json;
 

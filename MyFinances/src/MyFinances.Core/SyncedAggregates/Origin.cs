@@ -19,6 +19,11 @@ namespace MyFinances.Core.SyncedAggregates
         }
 
         public string Alias { get; private set; }
-        public int HouseholdId { get;private set; }
+        public int HouseholdId { get; private set; }
+
+        public void SetHouseholdId(int householdId)
+        {
+            HouseholdId = householdId;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -13,6 +14,22 @@ namespace MyFinances.Infra.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Origins",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Alias = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    HouseholdId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Origins", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -21,7 +38,8 @@ namespace MyFinances.Infra.Migrations
                     EstimatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ConfirmedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Category = table.Column<int>(type: "int", nullable: false),
-                    HouseholdId = table.Column<int>(type: "int", nullable: false)
+                    HouseholdId = table.Column<int>(type: "int", nullable: false),
+                    OriginId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,6 +50,9 @@ namespace MyFinances.Infra.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Origins");
+
             migrationBuilder.DropTable(
                 name: "Transactions");
         }

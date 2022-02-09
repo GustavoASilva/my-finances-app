@@ -8,7 +8,7 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "myfinances.api": "StartDebugging",
-        "sqlserver": "StartWithoutDebugging"
+        "myfinances.db": "StartWithoutDebugging"
       }
     }
   }

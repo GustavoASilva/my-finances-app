@@ -12,9 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql("Server=my-finances-db.czavckgvaqsu.sa-east-1.rds.amazonaws.com;Database=MyFinances;User=admin;Password=UhAUvdDgCWWZEQrfnGfR;", ServerVersion.Create(new Version("8.0.23"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql)));
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql("Server=host.docker.internal; Port=3306; Database=MyFinances; Uid=root; Pwd=Gg@03102020;", ServerVersion.Create(new Version("8.0.28"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql)));
 
 builder.Services.AddAutoMapper(typeof(TransactionProfile));
+builder.Services.AddAutoMapper(typeof(OriginProfile));
 
 builder.Services.AddControllers().AddJsonOptions(opts =>
 {

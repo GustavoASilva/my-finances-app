@@ -6,13 +6,15 @@ services:
     build:
       context: .
       dockerfile: src/MyFinances.API/Dockerfile
-
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    depends_on: [ myfinances.db ]
     ports:
-    - 1433:1433
+      - 8080:443
+
+  myfinances.db:
+    image: mysql:8.0.28
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
-    - ACCEPT_EULA=Y
-    - SA_PASSWORD=G3g3@2021!
-    - MSSQL_PID=Developer
-    container_name: sqlserver
+        MYSQL_ROOT_PASSWORD: Gg@03102020
+    ports:
+    - 3306:3306 

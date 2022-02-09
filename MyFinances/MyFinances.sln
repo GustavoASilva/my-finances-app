@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.API", "src\MyFin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Tests", "src\MyFinances.Tests\MyFinances.Tests.csproj", "{3B40F143-C65F-479C-8F9B-9042DD57652B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Server", "src\MyFinances.Blazor\Server\MyFinances.Blazor.Server.csproj", "{D504AD95-16C4-43BD-9A0F-82B3322D02E4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Client", "src\MyFinances.Blazor\Client\MyFinances.Blazor.Client.csproj", "{B7642AB4-961C-44CD-919B-B8EB4BBD553B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Shared", "src\MyFinances.Blazor\Shared\MyFinances.Blazor.Shared.csproj", "{1B68D725-118E-4271-A507-7B1C1CCBE4ED}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{080735A4-A3E6-4302-97C2-38D8E4FBF928}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D504AD95-16C4-43BD-9A0F-82B3322D02E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D504AD95-16C4-43BD-9A0F-82B3322D02E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D504AD95-16C4-43BD-9A0F-82B3322D02E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D504AD95-16C4-43BD-9A0F-82B3322D02E4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{1B68D725-118E-4271-A507-7B1C1CCBE4ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B68D725-118E-4271-A507-7B1C1CCBE4ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B68D725-118E-4271-A507-7B1C1CCBE4ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080735A4-A3E6-4302-97C2-38D8E4FBF928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080735A4-A3E6-4302-97C2-38D8E4FBF928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080735A4-A3E6-4302-97C2-38D8E4FBF928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080735A4-A3E6-4302-97C2-38D8E4FBF928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.API.Dtos;
-using MyFinances.Blazor.Shared;
+using MyFinances.Blazor.Shared.Transactions;
 using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Core.SyncedAggregates.Specifications;
@@ -10,12 +10,12 @@ namespace MyFinances.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
         private readonly IRepository<Transaction> _transactionRepository;
         private IMapper _mapper;
 
-        public TransactionController(IRepository<Transaction> transactionRepository, IMapper mapper)
+        public TransactionsController(IRepository<Transaction> transactionRepository, IMapper mapper)
         {
             _transactionRepository = transactionRepository ?? throw new ArgumentNullException(nameof(transactionRepository));
             _mapper = mapper;
@@ -73,7 +73,7 @@ namespace MyFinances.API.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var transaction = await _transactionRepository.GetByIdAsync(id);

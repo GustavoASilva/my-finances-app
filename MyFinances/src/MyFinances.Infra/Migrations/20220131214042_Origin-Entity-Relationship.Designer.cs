@@ -11,8 +11,8 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220112011235_Initial")]
-    partial class Initial
+    [Migration("20220131214042_Origin-Entity-Relationship")]
+    partial class OriginEntityRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace MyFinances.Infra.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Origin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("HouseholdId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Origins");
+                });
 
             modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Transaction", b =>
                 {
@@ -39,12 +57,26 @@ namespace MyFinances.Infra.Migrations
                     b.Property<int>("HouseholdId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OriginId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OriginId");
+
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Transaction", b =>
+                {
+                    b.HasOne("MyFinances.Core.SyncedAggregates.Origin", null)
+                        .WithMany()
+                        .HasForeignKey("OriginId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
