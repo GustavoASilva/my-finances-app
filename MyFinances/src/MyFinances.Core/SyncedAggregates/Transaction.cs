@@ -9,21 +9,22 @@ namespace MyFinances.Core.SyncedAggregates
         {
         }
 
-        public Transaction(decimal value, DateTime estimatedDate, DateTime? confirmedDate, Category category, int householdId)
+        public Transaction(decimal value, DateTime estimatedDate, DateTime? confirmedDate, Category category, int householdId, string description)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
             EstimatedDate = Guard.Against.Default(estimatedDate, nameof(EstimatedDate));
             ConfirmedDate = confirmedDate;
             Category = category;
             HouseholdId = householdId;
+            Description = description;
         }
 
         public decimal Value { get; private set; }
+        public string Description { get; private set; }
         public DateTime EstimatedDate { get; private set; }
         public DateTime? ConfirmedDate { get; private set; }
         public Category Category { get; private set; }
         public int HouseholdId { get; private set; }
-
         public int OriginId { get; private set; }
 
         public void SetConfirmedDate(DateTime confirmedDate)

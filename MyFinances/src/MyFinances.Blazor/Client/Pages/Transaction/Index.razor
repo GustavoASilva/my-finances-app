@@ -2,29 +2,32 @@
 
 <PageTitle>Index</PageTitle>
 
-<div class="row">
-    <div class="justify-content-end">
-        <a class="btn btn-primary" href="create"> Add new</a>
-    </div>
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-primary" href="create"> <i class="oi oi-plus"></i> Add</a>
 </div>
+
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>Descrição</th>
             <th>Valor</th>
+            <th>Origem</th>
             <th>Categoria</th>
             <th>Data Estimada</th>
             <th>Data Confirmada</th>
         </tr>
     </thead>
     <tbody>
-    @foreach(var transaction in transactions)
-    {
-        <tr>
-            <td>@transaction.Value.ToString("C")</td>
-            <td>@transaction.Category</td>
-            <td>@transaction.EstimatedDate.ToString("dd/MM/yyyy")</td>
-            <td>@transaction.ConfirmedDate</td>
-        </tr>
-    }
+        @foreach (var transaction in Transactions)
+        {
+            <tr>
+                <td>@transaction.Description</td>
+                <td>@transaction.Value.ToString("C")</td>
+                <td>@Origins.First(o => o.Id == transaction.OriginId).Alias</td>
+                <td>@transaction.Category</td>
+                <td>@transaction.EstimatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@(transaction.ConfirmedDate.HasValue ? @transaction.ConfirmedDate.Value.ToString("dd/MM/yyyy") : "-")</td>
+            </tr>
+        }
     </tbody>
 </table>

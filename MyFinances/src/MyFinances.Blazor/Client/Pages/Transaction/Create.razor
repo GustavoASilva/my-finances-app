@@ -3,15 +3,36 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div class="form-group">
-        <label>
-            Valor
+    <div class="mb-3">
+        <label class="form-label">
+            Descrição
         </label>
-        <InputNumber class="form-control" @key="model.Value" @bind-Value="model.Value" />
+        <InputText class="form-control" @bind-Value="model.Description" />
     </div>
 
-    <div class="form-group">
-        <label>
+    <div class="mb-3">
+        <label class="form-label">
+            Valor
+        </label>
+        <InputNumber class="form-control" @bind-Value="model.Value" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Origem
+        </label>
+
+        <InputSelect class="form-select" @bind-Value="model.OriginId">
+            <option value="">Selecione</option>
+            @foreach (var origin in origins)
+            {
+                <option value="@origin.Id"> @origin.Alias</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
             Data estimada
         </label>
 
@@ -25,8 +46,8 @@
 
     @if (model.IsConfirmed)
     {
-        <div class="form-group">
-            <label> Data de confirmação</label>
+        <div class="mb-3">
+            <label class="form-label"> Data de confirmação</label>
             <InputDate class="form-control" @bind-Value="model.ConfirmedDate" />
         </div>
     }
