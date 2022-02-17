@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyFinances.Core.SyncedAggregates;
+using MyFinances.Core.TransactionAggregate;
 
 namespace MyFinances.Infra.Configurations
 {

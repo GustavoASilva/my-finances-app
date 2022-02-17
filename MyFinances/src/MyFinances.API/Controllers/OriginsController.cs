@@ -5,7 +5,6 @@ using MyFinances.Blazor.Shared.Origins;
 using MyFinances.Blazor.Shared.Transactions;
 using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
-using MyFinances.Core.SyncedAggregates.Specifications;
 
 namespace MyFinances.API.Controllers
 {

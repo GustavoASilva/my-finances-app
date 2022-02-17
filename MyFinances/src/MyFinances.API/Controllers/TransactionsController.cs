@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyFinances.API.Dtos;
 using MyFinances.Blazor.Shared.Transactions;
 using MyFinances.Core.Interfaces;
-using MyFinances.Core.SyncedAggregates;
 using MyFinances.Core.SyncedAggregates.Specifications;
+using MyFinances.Core.TransactionAggregate;
 
 namespace MyFinances.API.Controllers
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MyFinances.API.Dtos;
 using MyFinances.Blazor.Shared.Transactions;
-using MyFinances.Core.SyncedAggregates;
+using MyFinances.Core.TransactionAggregate;
 
 namespace MyFinances.API.Profiles
 {

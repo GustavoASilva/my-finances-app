@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinances.Core.SyncedAggregates;
+using MyFinances.Core.TransactionAggregate;
 using System.Reflection;
 
 namespace MyFinances.Infra

@@ -1,7 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using MyFinances.Core.Interfaces;
+using MyFinances.Core.SyncedAggregates;
 
-namespace MyFinances.Core.SyncedAggregates
+namespace MyFinances.Core.TransactionAggregate
 {
     public class Transaction : BaseEntity<Guid>, IAggregateRoot
     {
@@ -9,11 +10,11 @@ namespace MyFinances.Core.SyncedAggregates
         {
         }
 
-        public Transaction(decimal value, DateTime estimatedDate, DateTime? confirmedDate, Category category, int householdId, string description)
+        public Transaction(decimal value,  Category category, int householdId, string description)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
-            EstimatedDate = Guard.Against.Default(estimatedDate, nameof(EstimatedDate));
-            ConfirmedDate = confirmedDate;
+            
+
             Category = category;
             HouseholdId = householdId;
             Description = description;
@@ -21,25 +22,28 @@ namespace MyFinances.Core.SyncedAggregates
 
         public decimal Value { get; private set; }
         public string Description { get; private set; }
-        public DateTime EstimatedDate { get; private set; }
-        public DateTime? ConfirmedDate { get; private set; }
         public Category Category { get; private set; }
         public int HouseholdId { get; private set; }
         public int OriginId { get; private set; }
+        public DateTime EstimatedDate { get; private set; }
+        public DateTime? ConfirmedDate { get; private set; }
 
-        public void SetConfirmedDate(DateTime confirmedDate)
-        {
-            ConfirmedDate = confirmedDate;
-        }
+
+        //public void SetConfirmedDate(DateTime confirmedDate)
+        //{
+        //    ConfirmedDate = confirmedDate;
+        //}
+
+        //public void SetEstimatedDate(DateTime estimatedDate)
+        //{
+        //    EstimatedDate = estimatedDate;
+        //}
 
         public void SetHouseholdId(int householdId)
         {
             HouseholdId = householdId;
         }
 
-        public void SetEstimatedDate(DateTime estimatedDate)
-        {
-            EstimatedDate = estimatedDate;
-        }
+        
     }
 }
