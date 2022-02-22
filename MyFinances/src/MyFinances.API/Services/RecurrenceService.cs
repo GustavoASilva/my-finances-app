@@ -3,7 +3,7 @@ using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.API.Services
 {
-    public class RecurrenceService
+    public class RecurrenceService : IRecurrenceService
     {
         private readonly IRepository<Recurrence> _recurrenceRepository;
 
@@ -20,6 +20,7 @@ namespace MyFinances.API.Services
             foreach (var recurrence in recurrences)
             {
                 recurrence.Apply();
+                await _recurrenceRepository.UpdateAsync(recurrence);
             }
         }
     }

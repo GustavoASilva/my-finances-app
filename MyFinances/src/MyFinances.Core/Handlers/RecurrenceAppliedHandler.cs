@@ -21,8 +21,7 @@ namespace MyFinances.Core.Handlers
 
         public async Task Handle(RecurrenceAppliedDomainEvent notification, CancellationToken cancellationToken)
         {
-            var transaction = new Transaction(notification.Value, notification.Category, notification.HouseholdId, notification.Description, notification.EstimatedTransactionDate);
-
+            var transaction = new Transaction(notification.Value, notification.Category, notification.HouseholdId,notification.OriginId, notification.Description, notification.EstimatedTransactionDate);
             await _repository.AddAsync(transaction, cancellationToken);
         }
     }

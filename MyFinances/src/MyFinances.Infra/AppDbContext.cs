@@ -11,6 +11,7 @@ namespace MyFinances.Infra
     {
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Origin> Origins { get; set; }
+        public DbSet<Recurrence> Recurrences { get; set; }
 
         private readonly IMediator _mediator;
 

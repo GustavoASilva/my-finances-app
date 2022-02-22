@@ -5,6 +5,18 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
+        public DateTime StartDate { get; private set; }
+        public bool IsActive { get; private set; } = true;
+
+        public DateTime? LatestOccurrence { get; private set; }
+
+        public  RecurrenceType Type { get; private set; } = RecurrenceType.Monthly;
+        public decimal Value { get; private set; }
+        public Category Category { get; private set; }
+        public string Description { get; private set; }
+        public int HouseholdId { get; private set; }
+        public int OriginId { get; private set; }
+
         public void Apply()
         {
             if (CanApply())
@@ -13,25 +25,17 @@ namespace MyFinances.Core.SyncedAggregates
 
                 var nextDate = GetNextOccurrenceDate();
                 var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(nextDate, Value, Category, Description, HouseholdId, OriginId);
+                
+                Description = "teste2";
+
                 AddDomainEvent(recurrenceAppliedEvent);
             }
         }
 
-        public DateTime StartDate { get; private set; }
-        public bool IsActive { get; private set; } = true;
-
-        public DateTime? LatestOccurrence { get; private set; }
-
-        public readonly RecurrenceType Type = RecurrenceType.Monthly;
-        public decimal Value { get; }
-        public Category Category { get; }
-        public string Description { get; }
-        public int HouseholdId { get; }
-        public int OriginId { get; }
-
         public bool CanApply()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return true;
         }
 
         public void SetIsActive(bool v)
@@ -41,7 +45,7 @@ namespace MyFinances.Core.SyncedAggregates
 
         private void UpdateLatestOccurrence()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private DateTime GetNextOccurrenceDate()

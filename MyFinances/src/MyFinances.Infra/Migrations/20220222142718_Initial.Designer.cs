@@ -11,7 +11,7 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220209002624_Initial")]
+    [Migration("20220222142718_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,46 @@ namespace MyFinances.Infra.Migrations
                     b.ToTable("Origins");
                 });
 
-            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Transaction", b =>
+            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Recurrence", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("HouseholdId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LatestOccurrence")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("OriginId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Recurrences");
+                });
+
+            modelBuilder.Entity("MyFinances.Core.TransactionAggregate.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,6 +89,10 @@ namespace MyFinances.Infra.Migrations
 
                     b.Property<DateTime?>("ConfirmedDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("EstimatedDate")
                         .HasColumnType("datetime(6)");
@@ -70,7 +113,7 @@ namespace MyFinances.Infra.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Transaction", b =>
+            modelBuilder.Entity("MyFinances.Core.TransactionAggregate.Transaction", b =>
                 {
                     b.HasOne("MyFinances.Core.SyncedAggregates.Origin", null)
                         .WithMany()
