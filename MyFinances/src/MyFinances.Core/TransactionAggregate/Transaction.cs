@@ -10,14 +10,14 @@ namespace MyFinances.Core.TransactionAggregate
         {
         }
 
-        public Transaction(decimal value,  Category category, int householdId, string description)
+        public Transaction(decimal value, Category category, int householdId, int originId, string description, DateTime estimatedDate)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
-            
-
             Category = category;
             HouseholdId = householdId;
             Description = description;
+            EstimatedDate = estimatedDate;
+            OriginId = originId;
         }
 
         public decimal Value { get; private set; }
@@ -28,16 +28,15 @@ namespace MyFinances.Core.TransactionAggregate
         public DateTime EstimatedDate { get; private set; }
         public DateTime? ConfirmedDate { get; private set; }
 
+        public void SetConfirmedDate(DateTime confirmedDate)
+        {
+            ConfirmedDate = confirmedDate;
+        }
 
-        //public void SetConfirmedDate(DateTime confirmedDate)
-        //{
-        //    ConfirmedDate = confirmedDate;
-        //}
-
-        //public void SetEstimatedDate(DateTime estimatedDate)
-        //{
-        //    EstimatedDate = estimatedDate;
-        //}
+        public void SetEstimatedDate(DateTime estimatedDate)
+        {
+            EstimatedDate = estimatedDate;
+        }
 
         public void SetHouseholdId(int householdId)
         {
