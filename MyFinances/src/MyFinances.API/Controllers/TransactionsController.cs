@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MyFinances.API.Dtos;
 using MyFinances.Blazor.Shared.Transactions;
 using MyFinances.Core.Interfaces;
-using MyFinances.Core.SyncedAggregates.Specifications;
 using MyFinances.Core.TransactionAggregate;
 
 namespace MyFinances.API.Controllers
@@ -24,9 +23,9 @@ namespace MyFinances.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetTransactionsInRangeRequest request)
         {
-            var spec = new TransactionsByHouseholdIdAndDateRangeSpec(1, request.DateTimeRange);
+            //var spec = new TransactionsByHouseholdIdAndDateRangeSpec(1, request.DateTimeRange);
             
-            var transactions = await _transactionRepository.ListAsync(spec);
+            var transactions = await _transactionRepository.ListAsync();
 
             _mapper.Map<List<GetTransactionsInRangeResponse>>(transactions);
             return Ok(transactions);

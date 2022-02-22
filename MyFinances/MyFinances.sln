@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Infra", "src\MyF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.API", "src\MyFinances.API\MyFinances.API.csproj", "{934D1F03-E302-4ED4-B6F2-1DF188CF989C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Tests", "src\MyFinances.Tests\MyFinances.Tests.csproj", "{3B40F143-C65F-479C-8F9B-9042DD57652B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Client", "src\MyFinances.Blazor\Client\MyFinances.Blazor.Client.csproj", "{B7642AB4-961C-44CD-919B-B8EB4BBD553B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Shared", "src\MyFinances.Blazor\Shared\MyFinances.Blazor.Shared.csproj", "{1B68D725-118E-4271-A507-7B1C1CCBE4ED}"
@@ -18,6 +16,8 @@ EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{080735A4-A3E6-4302-97C2-38D8E4FBF928}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Server", "src\MyFinances.Blazor\Server\MyFinances.Blazor.Server.csproj", "{F6187CFC-3791-4FED-ABCD-E2530340800F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.UnitTests", "tests\MyFinances.UnitTests\MyFinances.UnitTests.csproj", "{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{934D1F03-E302-4ED4-B6F2-1DF188CF989C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{934D1F03-E302-4ED4-B6F2-1DF188CF989C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{934D1F03-E302-4ED4-B6F2-1DF188CF989C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B40F143-C65F-479C-8F9B-9042DD57652B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7642AB4-961C-44CD-919B-B8EB4BBD553B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{F6187CFC-3791-4FED-ABCD-E2530340800F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6187CFC-3791-4FED-ABCD-E2530340800F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6187CFC-3791-4FED-ABCD-E2530340800F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
