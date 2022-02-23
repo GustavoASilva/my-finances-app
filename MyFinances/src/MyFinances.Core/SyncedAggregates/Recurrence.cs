@@ -5,12 +5,11 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
-        public DateTime StartDate { get; private set; }
+        public DateOnly StartDate { get; private set; }
         public bool IsActive { get; private set; } = true;
-
-        public DateTime? LatestOccurrence { get; private set; }
-
-        public  RecurrenceType Type { get; private set; } = RecurrenceType.Monthly;
+        public DateOnly? LatestOccurrenceDate { get; private set; }
+        public DateOnly NextOccurrenceDate { get; private set; }
+        public int DaysInterval { get; private set; }
         public decimal Value { get; private set; }
         public Category Category { get; private set; }
         public string Description { get; private set; }
@@ -21,36 +20,38 @@ namespace MyFinances.Core.SyncedAggregates
         {
             if (CanApply())
             {
-                UpdateLatestOccurrence();
+                UpdateLatestOccurrenceDate();
+                UpdateNextOccurrence();
 
-                var nextDate = GetNextOccurrenceDate();
-                var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(nextDate, Value, Category, Description, HouseholdId, OriginId);
-                
-                Description = "teste2";
+                var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrenceDate, Value, Category, Description, HouseholdId, OriginId);
 
                 AddDomainEvent(recurrenceAppliedEvent);
             }
         }
 
-        public bool CanApply()
+        private bool CanApply()
         {
-            //throw new NotImplementedException();
-            return true;
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            return IsActive
+                && StartDate >= today
+                && today <= NextOccurrenceDate.AddMonths(-1);
         }
 
-        public void SetIsActive(bool v)
+        public void SetIsActive(bool isActive)
         {
-            throw new NotImplementedException();
+            IsActive = isActive;
         }
 
-        private void UpdateLatestOccurrence()
+        private void UpdateLatestOccurrenceDate()
         {
-            //throw new NotImplementedException();
+            LatestOccurrenceDate = DateOnly.FromDateTime(DateTime.Now);
+
         }
 
-        private DateTime GetNextOccurrenceDate()
+        private void UpdateNextOccurrence()
         {
-            return DateTime.UtcNow;
+            if (LatestOccurrenceDate.HasValue)
+                NextOccurrenceDate = LatestOccurrenceDate.Value.AddDays(DaysInterval);
         }
     }
 }

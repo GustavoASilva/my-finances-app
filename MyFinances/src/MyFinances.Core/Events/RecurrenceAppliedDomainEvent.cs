@@ -6,7 +6,7 @@ namespace MyFinances.Core.Events
 
     public class RecurrenceAppliedDomainEvent : INotification
     {
-        public RecurrenceAppliedDomainEvent(DateTime estimatedTransactionDate, decimal value, Category category, string description, int householdId, int originId)
+        public RecurrenceAppliedDomainEvent(DateOnly estimatedTransactionDate, decimal value, Category category, string description, int householdId, int originId)
         {
             EstimatedTransactionDate = estimatedTransactionDate;
             Value = value;
@@ -16,7 +16,7 @@ namespace MyFinances.Core.Events
             OriginId = originId;
         }
 
-        public DateTime EstimatedTransactionDate { get; }
+        public DateOnly EstimatedTransactionDate { get; }
         public decimal Value { get; }
         public Category Category { get; }
         public string Description { get; }
