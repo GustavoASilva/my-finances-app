@@ -22,7 +22,9 @@ namespace MyFinances.Core.Handlers
         public async Task Handle(RecurrenceAppliedDomainEvent notification, CancellationToken cancellationToken)
         {
             TimeOnly midnight = TimeOnly.MinValue;
-            var transaction = new Transaction(notification.Value, notification.Category, notification.HouseholdId,notification.OriginId, notification.Description, notification.EstimatedTransactionDate.ToDateTime(midnight));
+            var description = $"Transação recorrente: {notification.Name}";
+
+            var transaction = new Transaction(notification.Value, notification.Category, notification.HouseholdId,notification.OriginId, description, notification.EstimatedTransactionDate.ToDateTime(midnight));
             await _repository.AddAsync(transaction, cancellationToken);
         }
     }

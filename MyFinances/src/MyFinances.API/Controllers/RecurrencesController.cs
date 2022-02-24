@@ -20,7 +20,7 @@ namespace MyFinances.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<ListRecurrencesResponse>> Get()
         {
             var recurrences = await _recurrenceRepository.ListAsync();
             var response = new ListRecurrencesResponse();
@@ -29,20 +29,22 @@ namespace MyFinances.API.Controllers
 
             response.Recurrences = mappedDtos;
 
-            return Ok(response);
+            return response;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateRecurrenceRequest recurrence)
+        public async Task<ActionResult<RecurrenceDto>> Post([FromBody] CreateRecurrenceRequest recurrence)
         {
             var householdId = 1;
-            var toModel = new Recurrence(recurrence.StartDate, recurrence.DaysInterval, recurrence.Value, recurrence.Category, recurrence.Description, householdId, recurrence.OriginId);
+            var toModel = new Recurrence(recurrence.Start, recurrence.DaysInterval, recurrence.Value, recurrence.TransactionCategory, recurrence.Name, householdId, recurrence.OriginId);
 
             var created = await _recurrenceRepository.AddAsync(toModel);
 
             await _recurrenceRepository.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(Get), created);
+            var createdDto = _mapper.Map<RecurrenceDto>(created);
+
+            return CreatedAtAction(nameof(Get), createdDto);
         }
 
         [HttpDelete("{id}")]

@@ -43,33 +43,30 @@ namespace MyFinances.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
                     b.Property<int>("DaysInterval")
                         .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<int>("HouseholdId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateOnly?>("LatestOccurrenceDate")
+                    b.Property<DateOnly?>("LatestOccurrence")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("NextOccurrenceDate")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateOnly>("NextOccurrence")
                         .HasColumnType("date");
 
                     b.Property<int>("OriginId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("StartDate")
+                    b.Property<DateOnly>("Start")
                         .HasColumnType("date");
+
+                    b.Property<int>("TransactionCategory")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");

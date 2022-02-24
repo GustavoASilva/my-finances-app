@@ -5,27 +5,31 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
-        public Recurrence(DateOnly startDate, int daysInterval, decimal value, Category category, string description, int householdId, int originId)
+        public Recurrence()
         {
-            StartDate = startDate;
-            DaysInterval = daysInterval;
-            Value = value;
-            Category = category;
-            Description = description;
-            HouseholdId = householdId;
-            OriginId = originId;
-            IsActive = true;
-            NextOccurrenceDate = startDate;
         }
 
-        public DateOnly StartDate { get; private set; }
-        public bool IsActive { get; private set; }
-        public DateOnly? LatestOccurrenceDate { get; private set; }
-        public DateOnly NextOccurrenceDate { get; private set; }
+        public Recurrence(DateTime start, int daysInterval, decimal value, Category transactionCategory, string description, int householdId, int originId)
+        {
+            DateOnly startDate = DateOnly.FromDateTime(start);
+
+            Start = startDate;
+            DaysInterval = daysInterval;
+            Value = value;
+            TransactionCategory = transactionCategory;
+            Name = description;
+            HouseholdId = householdId;
+            OriginId = originId;
+            NextOccurrence = startDate;
+        }
+
+        public DateOnly Start { get; private set; }
+        public DateOnly? LatestOccurrence { get; private set; }
+        public DateOnly NextOccurrence { get; private set; }
         public int DaysInterval { get; private set; }
         public decimal Value { get; private set; }
-        public Category Category { get; private set; }
-        public string Description { get; private set; }
+        public Category TransactionCategory { get; private set; }
+        public string Name { get; private set; }
         public int HouseholdId { get; private set; }
         public int OriginId { get; private set; }
 
@@ -33,37 +37,31 @@ namespace MyFinances.Core.SyncedAggregates
         {
             if (CanApply())
             {
-                UpdateLatestOccurrenceDate();
+                UpdateLatestOccurrence();
                 UpdateNextOccurrence();
 
-                var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrenceDate, Value, Category, Description, HouseholdId, OriginId);
+                var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrence, Name, Value, TransactionCategory, HouseholdId, OriginId);
 
                 AddDomainEvent(recurrenceAppliedEvent);
             }
         }
 
-        public void SetIsActive(bool isActive)
-        {
-            IsActive = isActive;
-        }
-
         private bool CanApply()
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
-            return IsActive
-                && StartDate >= today
-                && today <= NextOccurrenceDate.AddMonths(-1);
+            return Start >= today 
+                && today <= NextOccurrence.AddMonths(-1);
         }
 
-        private void UpdateLatestOccurrenceDate()
+        private void UpdateLatestOccurrence()
         {
-            LatestOccurrenceDate = DateOnly.FromDateTime(DateTime.Now);
+            LatestOccurrence = DateOnly.FromDateTime(DateTime.Now);
         }
 
         private void UpdateNextOccurrence()
         {
-            if (LatestOccurrenceDate.HasValue)
-                NextOccurrenceDate = LatestOccurrenceDate.Value.AddDays(DaysInterval);
+            if (LatestOccurrence.HasValue)
+                NextOccurrence = LatestOccurrence.Value.AddDays(DaysInterval);
         }
     }
 }

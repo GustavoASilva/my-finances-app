@@ -22,8 +22,8 @@ builder.Services.AddScoped<IRecurrenceService, RecurrenceService>();
 
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql("Server=host.docker.internal; Port=3306; Database=MyFinances; Uid=root; Pwd=Gg@03102020;", ServerVersion.Create(new Version("8.0.28"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql)));
 
-builder.Services.AddAutoMapper(typeof(TransactionProfile));
-builder.Services.AddAutoMapper(typeof(OriginProfile));
+builder.Services.AddAutoMapper(cfg => cfg.CreateMap<DateOnly, DateTime>().ConvertUsing(s => s.ToDateTime(TimeOnly.MinValue)));
+builder.Services.AddAutoMapper(typeof(TransactionProfile).Assembly);
 
 builder.Services.AddControllers().AddJsonOptions(opts =>
 {
