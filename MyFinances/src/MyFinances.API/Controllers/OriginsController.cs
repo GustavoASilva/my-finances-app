@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MyFinances.API.Dtos;
-using MyFinances.Blazor.Shared.Origins;
-using MyFinances.Blazor.Shared.Transactions;
+using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 

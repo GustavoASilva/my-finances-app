@@ -46,6 +46,9 @@ namespace MyFinances.Infra.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
+                    b.Property<int>("DaysInterval")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -56,17 +59,17 @@ namespace MyFinances.Infra.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime?>("LatestOccurrence")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly?>("LatestOccurrenceDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("NextOccurrenceDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("OriginId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<DateOnly>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");

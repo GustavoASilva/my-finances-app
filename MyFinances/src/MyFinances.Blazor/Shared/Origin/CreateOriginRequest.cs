@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyFinances.Blazor.Shared.Origins
+namespace MyFinances.Blazor.Shared.Origin
 {
     public class CreateOriginRequest
     {

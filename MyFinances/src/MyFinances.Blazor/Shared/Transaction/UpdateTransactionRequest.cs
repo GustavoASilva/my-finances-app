@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyFinances.Blazor.Shared.Transactions
+namespace MyFinances.Blazor.Shared.Transaction
 {
     public class UpdateTransactionRequest
     {

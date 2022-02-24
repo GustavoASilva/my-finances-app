@@ -34,10 +34,11 @@ namespace MyFinances.Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    StartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    LatestOccurrence = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    LatestOccurrenceDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    NextOccurrenceDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    DaysInterval = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)

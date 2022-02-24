@@ -1,4 +1,4 @@
-﻿namespace MyFinances.Blazor.Shared.Transactions
+﻿namespace MyFinances.Blazor.Shared.Transaction
 {
     public class GetTransactionsInRangeResponse
     {

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MyFinances.Blazor.Shared.Origins;
+using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.API.Profiles

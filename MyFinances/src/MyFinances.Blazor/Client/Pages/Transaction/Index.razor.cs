@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MyFinances.Blazor.Shared.Origins;
-using MyFinances.Blazor.Shared.Transactions;
+using MyFinances.Blazor.Shared.Origin;
+using MyFinances.Blazor.Shared.Transaction;
 using System.Net.Http.Json;
 using System.Text.Json;
 
