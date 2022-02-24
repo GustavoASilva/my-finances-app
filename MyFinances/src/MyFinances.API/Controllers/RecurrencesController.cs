@@ -32,18 +32,18 @@ namespace MyFinances.API.Controllers
             return Ok(response);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] CreateRecurrenceRequest Recurrence)
-        //{
-        //    var toModel = _mapper.Map<Recurrence>(Recurrence);
-        //    toModel.SetHouseholdId(1);
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CreateRecurrenceRequest recurrence)
+        {
+            var householdId = 1;
+            var toModel = new Recurrence(recurrence.StartDate, recurrence.DaysInterval, recurrence.Value, recurrence.Category, recurrence.Description, householdId, recurrence.OriginId);
 
-        //    var created = await _recurrenceRepository.AddAsync(toModel);
+            var created = await _recurrenceRepository.AddAsync(toModel);
 
-        //    await _recurrenceRepository.SaveChangesAsync();
+            await _recurrenceRepository.SaveChangesAsync();
 
-        //    return CreatedAtAction(nameof(Get), created);
-        //}
+            return CreatedAtAction(nameof(Get), created);
+        }
 
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> Delete([FromRoute] int id)

@@ -5,8 +5,21 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
+        public Recurrence(DateOnly startDate, int daysInterval, decimal value, Category category, string description, int householdId, int originId)
+        {
+            StartDate = startDate;
+            DaysInterval = daysInterval;
+            Value = value;
+            Category = category;
+            Description = description;
+            HouseholdId = householdId;
+            OriginId = originId;
+            IsActive = true;
+            NextOccurrenceDate = startDate;
+        }
+
         public DateOnly StartDate { get; private set; }
-        public bool IsActive { get; private set; } = true;
+        public bool IsActive { get; private set; }
         public DateOnly? LatestOccurrenceDate { get; private set; }
         public DateOnly NextOccurrenceDate { get; private set; }
         public int DaysInterval { get; private set; }
@@ -29,6 +42,11 @@ namespace MyFinances.Core.SyncedAggregates
             }
         }
 
+        public void SetIsActive(bool isActive)
+        {
+            IsActive = isActive;
+        }
+
         private bool CanApply()
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
@@ -37,15 +55,9 @@ namespace MyFinances.Core.SyncedAggregates
                 && today <= NextOccurrenceDate.AddMonths(-1);
         }
 
-        public void SetIsActive(bool isActive)
-        {
-            IsActive = isActive;
-        }
-
         private void UpdateLatestOccurrenceDate()
         {
             LatestOccurrenceDate = DateOnly.FromDateTime(DateTime.Now);
-
         }
 
         private void UpdateNextOccurrence()
