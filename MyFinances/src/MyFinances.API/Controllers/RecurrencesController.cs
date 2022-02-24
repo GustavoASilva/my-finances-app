@@ -45,17 +45,17 @@ namespace MyFinances.API.Controllers
             return CreatedAtAction(nameof(Get), created);
         }
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> Delete([FromRoute] int id)
-        //{
-        //    var Recurrence = await _recurrenceRepository.GetByIdAsync(id);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var recurrence = await _recurrenceRepository.GetByIdAsync(id);
 
-        //    if (Recurrence == null)
-        //        return NotFound();
+            if (recurrence == null)
+                return NotFound();
 
-        //    await _recurrenceRepository.DeleteAsync(Recurrence);
+            await _recurrenceRepository.DeleteAsync(recurrence);
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }
