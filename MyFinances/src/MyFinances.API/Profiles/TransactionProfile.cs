@@ -12,7 +12,7 @@ namespace MyFinances.API.Profiles
             CreateMap<CreateTransactionRequest, Transaction>().ReverseMap();
             CreateMap<UpdateTransactionRequest, Transaction>().ReverseMap();
             CreateMap<PatchTransactionRequest, Transaction>().ReverseMap();
-            CreateMap<GetTransactionsInRangeResponse, Transaction>().ReverseMap();
+            CreateMap<ListTransactionsResponse, Transaction>().ReverseMap();
         }
     }
 }

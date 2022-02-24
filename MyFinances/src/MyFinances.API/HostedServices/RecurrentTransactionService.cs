@@ -31,7 +31,6 @@ namespace MyFinances.API.HostedServices
                 initialDelay.Wait();
 
                 //apply recurrences at expected time
-
                 ApplyRecurrences(null);
 
                 //now schedule it to be called every 24 hours for future

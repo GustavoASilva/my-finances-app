@@ -8,7 +8,7 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 {
     public partial class Index
     {
-        public List<GetTransactionsInRangeResponse> Transactions { get; private set; } = new List<GetTransactionsInRangeResponse>();
+        public List<ListTransactionsResponse> Transactions { get; private set; } = new List<ListTransactionsResponse>();
         public List<GetOriginsResponse> Origins { get; private set; } = new List<GetOriginsResponse>();
 
         [Inject]
@@ -23,7 +23,7 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 
             var originsRequest =  httpClient.GetFromJsonAsync<List<GetOriginsResponse>>("Origins", opt);
 
-            var transactionsResponse = await httpClient.GetFromJsonAsync<List<GetTransactionsInRangeResponse>>("Transactions?DateTimeRange.Start=10%20Jan%202021%2001%3A41%3A21%20GMT%20&DateTimeRange.End=13%20Jan%202023%2001%3A41%3A21%20GMT%20", opt);
+            var transactionsResponse = await httpClient.GetFromJsonAsync<List<ListTransactionsResponse>>("Transactions?DateTimeRange.Start=10%20Jan%202021%2001%3A41%3A21%20GMT%20&DateTimeRange.End=13%20Jan%202023%2001%3A41%3A21%20GMT%20", opt);
             if (transactionsResponse != null)
                 Transactions = transactionsResponse;
 

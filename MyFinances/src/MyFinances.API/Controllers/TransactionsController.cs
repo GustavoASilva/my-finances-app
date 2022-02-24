@@ -21,13 +21,11 @@ namespace MyFinances.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] GetTransactionsInRangeRequest request)
+        public async Task<IActionResult> Get()
         {
-            //var spec = new TransactionsByHouseholdIdAndDateRangeSpec(1, request.DateTimeRange);
-            
             var transactions = await _transactionRepository.ListAsync();
 
-            _mapper.Map<List<GetTransactionsInRangeResponse>>(transactions);
+            _mapper.Map<List<ListTransactionsResponse>>(transactions);
             return Ok(transactions);
         }
 

@@ -14,7 +14,6 @@ namespace MyFinances.API.Services
 
         public async Task ApplyRecurrences()
         {
-            //Apply specification to fetch only active recurrences
             var recurrences = await _recurrenceRepository.ListAsync();
 
             foreach (var recurrence in recurrences)
