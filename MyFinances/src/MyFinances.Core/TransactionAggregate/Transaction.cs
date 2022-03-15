@@ -23,26 +23,47 @@ namespace MyFinances.Core.TransactionAggregate
         public decimal Value { get; private set; }
         public string Description { get; private set; }
         public Category Category { get; private set; }
-        public int HouseholdId { get; private set; }
+        public int HouseholdId { get; }
         public int OriginId { get; private set; }
         public DateTime EstimatedDate { get; private set; }
         public DateTime? ConfirmedDate { get; private set; }
+        public bool IsConfirmed { get; private set; }
 
-        public void SetConfirmedDate(DateTime confirmedDate)
+        public void UpdateValue(decimal value)
         {
-            ConfirmedDate = confirmedDate;
+            Value = value;
+        }
+        public void UpdateDescription(string description)
+        {
+            Description = description;
         }
 
-        public void SetEstimatedDate(DateTime estimatedDate)
+        public void SetConfirmed(bool confirmed)
+        {
+            if (confirmed)
+                Confirm();
+            else
+                Unconfirm();
+        }
+
+        public void UpdateEstimatedDate(DateTime estimatedDate)
         {
             EstimatedDate = estimatedDate;
         }
 
-        public void SetHouseholdId(int householdId)
+        private void Confirm()
         {
-            HouseholdId = householdId;
+            if (IsConfirmed) return;
+
+            ConfirmedDate = DateTime.Now;
+            IsConfirmed = true;
         }
 
-        
+        private void Unconfirm()
+        {
+            if (!IsConfirmed) return;
+            IsConfirmed = false;
+            ConfirmedDate = null;
+        }
     }
 }

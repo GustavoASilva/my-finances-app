@@ -35,6 +35,7 @@ namespace MyFinances.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Start = table.Column<DateOnly>(type: "date", nullable: false),
+                    End = table.Column<DateOnly>(type: "date", nullable: false),
                     LatestOccurrence = table.Column<DateOnly>(type: "date", nullable: true),
                     NextOccurrence = table.Column<DateOnly>(type: "date", nullable: false),
                     DaysInterval = table.Column<int>(type: "int", nullable: false),
@@ -60,10 +61,10 @@ namespace MyFinances.Infra.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Category = table.Column<int>(type: "int", nullable: false),
-                    HouseholdId = table.Column<int>(type: "int", nullable: false),
                     OriginId = table.Column<int>(type: "int", nullable: false),
                     EstimatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ConfirmedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    ConfirmedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

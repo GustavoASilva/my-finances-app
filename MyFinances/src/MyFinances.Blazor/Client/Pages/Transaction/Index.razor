@@ -1,9 +1,9 @@
-﻿@page "/"
+﻿@page "/transaction"
 
 <PageTitle>Index</PageTitle>
 
 <div class="d-flex justify-content-end mb-3">
-    <a class="btn btn-primary" href="create"> <i class="oi oi-plus"></i> Add</a>
+    <a class="btn btn-primary" href="transaction/create"> <i class="oi oi-plus"></i> Add</a>
 </div>
 
 <table class="table table-bordered">
@@ -15,6 +15,7 @@
             <th>Categoria</th>
             <th>Data Estimada</th>
             <th>Data Confirmada</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,20 @@
                 <td>@transaction.Category</td>
                 <td>@transaction.EstimatedDate.ToString("dd/MM/yyyy")</td>
                 <td>@(transaction.ConfirmedDate.HasValue ? @transaction.ConfirmedDate.Value.ToString("dd/MM/yyyy") : "-")</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ações
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            @if (transaction.ConfirmedDate == null)
+                            {
+                                <button class="dropdown-item" @onclick="() => ConfirmAsync(transaction.Id)">Confirmar</button>
+                            }
+                            <button class="dropdown-item" @onclick="() => DeleteAsync(transaction.Id)">Deletar</button>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>

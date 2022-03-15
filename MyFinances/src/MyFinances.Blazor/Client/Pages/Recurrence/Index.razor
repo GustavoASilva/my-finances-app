@@ -1,0 +1,27 @@
+﻿@page "/recurrence"
+
+<PageTitle>Index</PageTitle>
+
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-primary" href="recurrence/create"> <i class="oi oi-plus"></i> Add</a>
+</div>
+
+<div class="row">
+    @foreach (var recurrence in Recurrences)
+    {
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col">
+                        <div class="card-body">
+                            <h5 class="card-title">@recurrence.Name</h5>
+                            <p class="card-text">Valor: @recurrence.Value</p>
+                            <p class="card-text">Próxima ocorrência: @recurrence.NextOccurrence.ToString("dd/MM/yyyy")</p>
+                            <p class="card-text">Ultima ocorrência: @(recurrence.LatestOccurrence?.ToString("dd/MM/yyyy") ?? "-") </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

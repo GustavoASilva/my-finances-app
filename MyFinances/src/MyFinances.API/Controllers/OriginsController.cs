@@ -22,19 +22,21 @@ namespace MyFinances.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var origins = await _originRepository.ListAsync();
-            var mapped = _mapper.Map<List<GetOriginsResponse>>(origins);
+            List<Origin> origins = await _originRepository.ListAsync();
 
-            return Ok(mapped);
+            var dtos = _mapper.Map<List<OriginDto>>(origins);
+            var response = new ListOriginsResponse(dtos);
+
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateOriginRequest origin)
         {
-            var toModel = _mapper.Map<Origin>(origin);
-            toModel.SetHouseholdId(1);
+            int householdId = 1;
+            Origin? model = new Origin(origin.Alias, householdId);
 
-            var created = await _originRepository.AddAsync(toModel);
+            Origin? created = await _originRepository.AddAsync(model);
 
             await _originRepository.SaveChangesAsync();
 
@@ -44,7 +46,7 @@ namespace MyFinances.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var origin = await _originRepository.GetByIdAsync(id);
+            Origin? origin = await _originRepository.GetByIdAsync(id);
 
             if (origin == null)
                 return NotFound();

@@ -13,17 +13,19 @@ namespace MyFinances.Core.SyncedAggregates
         {
         }
 
-        public Origin(string alias)
+        public Origin(string alias, int householdId)
         {
             Alias = alias;
+            HouseholdId = householdId;
         }
 
         public string Alias { get; private set; }
         public int HouseholdId { get; private set; }
+        public DateTime DeletedAt { get; private set; }
 
-        public void SetHouseholdId(int householdId)
+        public void SetDeletedAt(DateTime dateTime)
         {
-            HouseholdId = householdId;
+            DeletedAt = dateTime;
         }
     }
 }

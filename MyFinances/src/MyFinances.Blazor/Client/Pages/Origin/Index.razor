@@ -1,0 +1,22 @@
+﻿@page "/origin"
+<PageTitle>Index</PageTitle>
+
+<div class="d-flex justify-content-end mb-3">
+    <a class="btn btn-primary" href="origin/create"> <i class="oi oi-plus"></i> Add</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Apelido</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var origin in Origins)
+        {
+            <tr>
+                <td>@origin.Alias</td>
+            </tr>
+        }
+    </tbody>
+</table>

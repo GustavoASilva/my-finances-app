@@ -9,11 +9,13 @@ namespace MyFinances.Core.SyncedAggregates
         {
         }
 
-        public Recurrence(DateTime start, int daysInterval, decimal value, Category transactionCategory, string description, int householdId, int originId)
+        public Recurrence(DateTime start, DateTime end, int daysInterval, decimal value, Category transactionCategory, string description, int householdId, int originId)
         {
             DateOnly startDate = DateOnly.FromDateTime(start);
+            DateOnly endDate = DateOnly.FromDateTime(end);
 
             Start = startDate;
+            End = endDate;
             DaysInterval = daysInterval;
             Value = value;
             TransactionCategory = transactionCategory;
@@ -24,6 +26,7 @@ namespace MyFinances.Core.SyncedAggregates
         }
 
         public DateOnly Start { get; private set; }
+        public DateOnly End { get; private set; }
         public DateOnly? LatestOccurrence { get; private set; }
         public DateOnly NextOccurrence { get; private set; }
         public int DaysInterval { get; private set; }
@@ -35,22 +38,20 @@ namespace MyFinances.Core.SyncedAggregates
 
         public void Apply()
         {
-            if (CanApply())
-            {
-                UpdateLatestOccurrence();
-                UpdateNextOccurrence();
+            UpdateLatestOccurrence();
+            UpdateNextOccurrence();
 
-                var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrence, Name, Value, TransactionCategory, HouseholdId, OriginId);
+            var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrence, Name, Value, TransactionCategory, HouseholdId, OriginId);
 
-                AddDomainEvent(recurrenceAppliedEvent);
-            }
+            AddDomainEvent(recurrenceAppliedEvent);
         }
 
-        private bool CanApply()
+        public bool CanBeApplied()
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
-            return Start >= today 
-                && today <= NextOccurrence.AddMonths(-1);
+            return Start == today
+                && today < End
+                && today >= NextOccurrence.AddMonths(-1);
         }
 
         private void UpdateLatestOccurrence()

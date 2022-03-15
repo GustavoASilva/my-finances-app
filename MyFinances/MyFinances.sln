@@ -17,7 +17,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.Blazor.Server", "src\MyFinances.Blazor\Server\MyFinances.Blazor.Server.csproj", "{F6187CFC-3791-4FED-ABCD-E2530340800F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinances.UnitTests", "tests\MyFinances.UnitTests\MyFinances.UnitTests.csproj", "{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinances.UnitTests", "tests\MyFinances.UnitTests\MyFinances.UnitTests.csproj", "{6CFAD853-E397-4337-A6E1-EC6F9C25AB8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,7 +11,7 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220224175734_Initial")]
+    [Migration("20220307145346_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,9 @@ namespace MyFinances.Infra.Migrations
 
                     b.Property<int>("DaysInterval")
                         .HasColumnType("int");
+
+                    b.Property<DateOnly>("End")
+                        .HasColumnType("date");
 
                     b.Property<int>("HouseholdId")
                         .HasColumnType("int");
@@ -97,8 +100,8 @@ namespace MyFinances.Infra.Migrations
                     b.Property<DateTime>("EstimatedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("HouseholdId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("OriginId")
                         .HasColumnType("int");

@@ -21,7 +21,7 @@ namespace MyFinances.API.HostedServices
 
             //calculate time to run the first time & delay to set the timer
             //DateTime.Today gives time of midnight 00.00
-            var nextRunTime = DateTime.Now.AddSeconds(5);
+            var nextRunTime = DateTime.Today.AddDays(1);
             var currentTime = DateTime.Now;
             var firstInterval = nextRunTime.Subtract(currentTime);
 

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using MyFinances.API.Dtos;
 using MyFinances.Blazor.Shared.Transaction;
 using MyFinances.Core.Interfaces;
+using MyFinances.Core.SyncedAggregates;
 using MyFinances.Core.TransactionAggregate;
+using MyFinances.Core.TransactionAggregate.Specification;
 
 namespace MyFinances.API.Controllers
 {
@@ -21,19 +23,22 @@ namespace MyFinances.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(DateTime? estimatedDateStart, DateTime? estimatedDateEnd)
         {
-            var transactions = await _transactionRepository.ListAsync();
+            var spec = new TransactionFilterSpec(estimatedDateStart, estimatedDateEnd);
 
-            _mapper.Map<List<ListTransactionsResponse>>(transactions);
-            return Ok(transactions);
+            var transactions = await _transactionRepository.ListAsync(spec);
+            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
+
+            var response = new ListTransactionsResponse(transactionsDto);
+            return Ok(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateTransactionRequest transaction)
         {
-            var toModel = _mapper.Map<Transaction>(transaction);
-            toModel.SetHouseholdId(1);
+            var householdId = 1;
+            var toModel = new Transaction(transaction.Value, transaction.Category, householdId, transaction.OriginId, transaction.Description, transaction.EstimatedDate);
 
             var created = await _transactionRepository.AddAsync(toModel);
 
@@ -44,13 +49,20 @@ namespace MyFinances.API.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateTransactionRequest transaction)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateTransactionRequest updateTransaction)
         {
-            var toModel = _mapper.Map<Transaction>(transaction);
-            toModel.SetHouseholdId(1);
-            toModel.Id = id;
+            Transaction? transaction = await _transactionRepository.GetByIdAsync(id);
 
-            await _transactionRepository.UpdateAsync(toModel);
+            if (transaction == null)
+                return NotFound();
+
+            transaction.UpdateEstimatedDate(updateTransaction.EstimatedDate);
+            transaction.UpdateDescription(updateTransaction.Description);
+            transaction.UpdateValue(updateTransaction.Value);
+            transaction.SetConfirmed(updateTransaction.Confirmed);
+
+
+            await _transactionRepository.UpdateAsync(transaction);
 
             return NoContent();
         }
@@ -63,7 +75,7 @@ namespace MyFinances.API.Controllers
             if (transaction == null)
                 return NotFound();
 
-            transaction.SetConfirmedDate(patch.ConfirmedDate);
+            transaction.SetConfirmed(patch.Confirmed);
 
             await _transactionRepository.SaveChangesAsync();
 

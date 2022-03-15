@@ -8,6 +8,15 @@ namespace MyFinances.Blazor.Shared.Transaction
 {
     public class PatchTransactionRequest
     {
-        public DateTime ConfirmedDate { get; set; }
+        public bool Confirmed { get; set; }
+
+        public PatchTransactionRequest()
+        {
+        }
+
+        public PatchTransactionRequest(bool confirmed)
+        {
+            Confirmed = confirmed;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/transaction/create"
+﻿@page "/recurrence/create"
 
 <EditForm Model="@Model" OnValidSubmit="@HandleValidSubmitAsync">
     <DataAnnotationsValidator />
@@ -6,14 +6,14 @@
 
     <div class="mb-3">
         <label class="form-label">
-            Descrição
+            Nome
         </label>
-        <InputText class="form-control" @bind-Value="Model.Description" />
+        <InputText class="form-control" @bind-Value="Model.Name" />
     </div>
 
     <div class="mb-3">
         <label class="form-label">
-            Valor
+            Valor recorrente
         </label>
         <InputNumber class="form-control" @bind-Value="Model.Value" />
     </div>
@@ -34,24 +34,18 @@
 
     <div class="mb-3">
         <label class="form-label">
-            Data estimada
+            Data de Inicio
         </label>
 
-        <InputDate class="form-control" @bind-Value="Model.EstimatedDate" />
+        <InputDate class="form-control" @bind-Value="Model.Start" />
     </div>
 
-    <div class="form-check">
-        <InputCheckbox class="form-check-input" @bind-Value="Model.IsConfirmed" />
-        <label class="form-check-label" for="@Model.IsConfirmed"> Está confirmada ? </label>
+      <div class="mb-3">
+        <label class="form-label">
+            Data de Fim
+        </label>
+
+        <InputDate class="form-control" @bind-Value="Model.End" />
     </div>
-
-    @if (Model.IsConfirmed)
-    {
-        <div class="mb-3">
-            <label class="form-label"> Data de confirmação</label>
-            <InputDate class="form-control" @bind-Value="Model.ConfirmedDate" />
-        </div>
-    }
-
     <button class="btn btn-success" type="submit">Submit</button>
 </EditForm>

@@ -18,8 +18,11 @@ namespace MyFinances.API.Services
 
             foreach (var recurrence in recurrences)
             {
-                recurrence.Apply();
-                await _recurrenceRepository.UpdateAsync(recurrence);
+                if (recurrence.CanBeApplied())
+                {
+                    recurrence.Apply();
+                    await _recurrenceRepository.UpdateAsync(recurrence);
+                }
             }
         }
     }

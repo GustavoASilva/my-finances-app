@@ -1,0 +1,36 @@
+﻿@page "/"
+<h3>Dashboard</h3>
+
+<div class="row no-gutters">
+    <div class="col-6">
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title">Saldo atual</h5>
+                        <p class="card-text">@ActualBalance.ToString("C")</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col">
+                    <div class="card-body">
+                        <h5 class="card-title">Saldo estimado</h5>
+                        <p class="card-text">@EstimatedBalance.ToString("C")</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <Chart Config=_config Height="350" Width="350" />
+</div>
+@*    <MyFinances.Blazor.Client.Pages.Transaction.Index />*@
+

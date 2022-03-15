@@ -9,7 +9,7 @@ namespace MyFinances.API.Profiles
         public OriginProfile()
         {
             CreateMap<Origin, CreateOriginRequest>().ReverseMap();
-            CreateMap<Origin, GetOriginsResponse>().ReverseMap();
+            CreateMap<Origin, OriginDto>().ReverseMap();
         }
     }
 }
