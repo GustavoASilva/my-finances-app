@@ -59,5 +59,22 @@ namespace MyFinances.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("applications")]
+        public async Task<IActionResult> PostApplications()
+        {
+            var recurrences = await _recurrenceRepository.ListAsync();
+
+            foreach (var recurrence in recurrences)
+            {
+                if (recurrence.CanBeApplied())
+                {
+                    recurrence.Apply();
+                    await _recurrenceRepository.UpdateAsync(recurrence);
+                }
+            }
+
+            return Ok();
+        }
     }
 }

@@ -11,7 +11,7 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220307145346_Initial")]
+    [Migration("20220322174811_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace MyFinances.Infra.Migrations
                     b.Property<string>("Alias")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("HouseholdId")
                         .HasColumnType("int");

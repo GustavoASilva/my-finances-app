@@ -50,7 +50,7 @@ namespace MyFinances.Core.SyncedAggregates
         {
             var today = DateOnly.FromDateTime(DateTime.Now);
             return Start == today
-                && today < End
+                && today <= End
                 && today >= NextOccurrence.AddMonths(-1);
         }
 

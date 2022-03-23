@@ -1,10 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using MyFinances.API;
-using MyFinances.API.HostedServices;
 using MyFinances.API.Profiles;
-using MyFinances.API.Services;
 using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Infra;
@@ -14,13 +11,14 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddHostedService<RecurrentTransactionService>();
+builder.Services.Configure<RouteOptions>(cfg => cfg.LowercaseUrls = true);
+
 builder.Services.AddLogging();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-builder.Services.AddScoped<IRecurrenceService, RecurrenceService>();
 
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql("Server=host.docker.internal; Port=3306; Database=MyFinances; Uid=root; Pwd=Gg@03102020;", ServerVersion.Create(new Version("8.0.28"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql)));
+string connectionString = builder.Configuration.GetConnectionString("MYFINANCES_DB");
+
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.Create(new Version("8.0.21"), Pomelo.EntityFrameworkCore.MySql.Infrastructure.ServerType.MySql)));
 
 builder.Services.AddAutoMapper(cfg => cfg.CreateMap<DateOnly, DateTime>().ConvertUsing(s => s.ToDateTime(TimeOnly.MinValue)));
 builder.Services.AddAutoMapper(typeof(TransactionProfile).Assembly);
@@ -33,9 +31,11 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 
 builder.Services.AddSwaggerGen();
 
+string blazorUrl = builder.Configuration.GetValue<string>("BLAZOR_URL") ?? "*";
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 {
-    policy.AllowAnyOrigin();
+    policy.WithOrigins(blazorUrl);
     policy.AllowAnyHeader();
     policy.AllowAnyMethod();
 }));

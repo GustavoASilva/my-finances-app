@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>080735a4-a3e6-4302-97c2-38d8e4fbf928</ProjectGuid>
+    <ProjectGuid>445f9931-7d1e-4cb9-a8dd-96bf678de787</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>myfinances.api</DockerServiceName>

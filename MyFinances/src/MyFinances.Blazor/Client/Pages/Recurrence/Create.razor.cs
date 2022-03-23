@@ -37,7 +37,8 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
                 Value = Model.Value,
                 DaysInterval = Model.DaysInterval,
                 Name = Model.Name,
-                TransactionCategory = Model.TransactionCategory
+                TransactionCategory = Model.TransactionCategory,
+                OriginId = Model.OriginId,
             };
 
             var createdDto = await RecurrenceService.CreateAsync(requestModel);

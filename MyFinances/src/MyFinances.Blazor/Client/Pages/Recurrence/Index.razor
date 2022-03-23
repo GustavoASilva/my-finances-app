@@ -15,9 +15,13 @@
                     <div class="col">
                         <div class="card-body">
                             <h5 class="card-title">@recurrence.Name</h5>
-                            <p class="card-text">Valor: @recurrence.Value</p>
-                            <p class="card-text">Próxima ocorrência: @recurrence.NextOccurrence.ToString("dd/MM/yyyy")</p>
+                            <p class="card-text">Valor: @recurrence.Value.ToString("C")</p>
                             <p class="card-text">Ultima ocorrência: @(recurrence.LatestOccurrence?.ToString("dd/MM/yyyy") ?? "-") </p>
+                            <p class="card-text">Próxima ocorrência: @recurrence.NextOccurrence.ToString("dd/MM/yyyy")</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <button class="btn btn-sm btn-primary"> Detalhes</button>
+                            <button class="btn btn-sm btn-danger"> Deletar</button>
                         </div>
                     </div>
                 </div>
