@@ -16,7 +16,8 @@ namespace MyFinances.Core.TransactionAggregate.Specification
                 Where(t => (!estimatedDateStart.HasValue
                             || t.EstimatedDate >= estimatedDateStart)
                            && (!estimatedDateEnd.HasValue ||
-                           t.EstimatedDate <= estimatedDateEnd));
+                           t.EstimatedDate <= estimatedDateEnd))
+                .Include(x => x.Category);
         }
     }
 }

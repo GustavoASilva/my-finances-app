@@ -36,5 +36,10 @@ namespace MyFinances.Blazor.Client.Services
 
             return result;
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _httpClient.DeleteAsync($"{Resource}/{id}");
+        }
     }
 }

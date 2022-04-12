@@ -10,24 +10,25 @@ namespace MyFinances.Core.TransactionAggregate
         {
         }
 
-        public Transaction(decimal value, Category category, int householdId, int originId, string description, DateTime estimatedDate)
+        public Transaction(decimal value, int categoryId, int householdId, int originId, string description, DateTime estimatedDate)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
-            Category = category;
             HouseholdId = householdId;
             Description = description;
             EstimatedDate = estimatedDate;
             OriginId = originId;
+            _categoryId = categoryId;
         }
 
         public decimal Value { get; private set; }
         public string Description { get; private set; }
-        public Category Category { get; private set; }
+        public Category Category { get;  set; }
         public int HouseholdId { get; }
         public int OriginId { get; private set; }
         public DateTime EstimatedDate { get; private set; }
         public DateTime? ConfirmedDate { get; private set; }
         public bool IsConfirmed { get; private set; }
+        private int _categoryId;
 
         public void UpdateValue(decimal value)
         {

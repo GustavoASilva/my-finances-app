@@ -20,7 +20,7 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
         private NavigationManager navigationManager { get; set; }
 
 
-        public RecurrenceCreate Model = new RecurrenceCreate();
+        public RecurrenceCreateDto Model = new RecurrenceCreateDto();
         public List<OriginDto> Origins { get; private set; } = new List<OriginDto>();
 
         protected override async Task OnInitializedAsync()
@@ -37,7 +37,7 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
                 Value = Model.Value,
                 DaysInterval = Model.DaysInterval,
                 Name = Model.Name,
-                TransactionCategory = Model.TransactionCategory,
+                TransactionCategoryId = Model.TransactionCategoryId,
                 OriginId = Model.OriginId,
             };
 

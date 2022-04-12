@@ -17,7 +17,7 @@ namespace MyFinances.Blazor.Client.Pages.Origin
         [Inject]
         NavigationManager NavManager { get; set; }
 
-        OriginCreate Model = new();
+        OriginCreateDto Model = new();
 
         private async Task HandleValidSubmit()
         {

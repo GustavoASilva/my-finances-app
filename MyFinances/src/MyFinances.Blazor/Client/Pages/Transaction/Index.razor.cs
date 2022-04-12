@@ -1,49 +1,39 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MyFinances.Blazor.Client.Services;
-using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Blazor.Shared.Transaction;
-using System.Net.Http.Json;
 
 namespace MyFinances.Blazor.Client.Pages.Transaction
 {
     public partial class Index
     {
         [Inject]
-        OriginService OriginService { get; set; }
-
-        [Inject]
         TransactionService TransactionService { get; set; }
 
-        [Inject]
-        NavigationManager NavManager { get; set; }
-
-        List<TransactionDto> Transactions { get;  set; } = new List<TransactionDto>();
-        List<OriginDto> Origins { get;  set; } = new List<OriginDto>();
+        List<TransactionDto> Transactions { get; set; } = new List<TransactionDto>();
 
         protected override async Task OnInitializedAsync()
         {
-            Origins = await OriginService.ListAsync();
-            Transactions = await TransactionService.ListAsync();
+            await LoadTransactionsAsync();
 
             await base.OnInitializedAsync();
         }
 
-        protected async Task DeleteAsync(Guid id)
+        protected async Task Delete(Guid id)
         {
             await TransactionService.DeleteAsync(id);
-            Transactions.RemoveAll(t => t.Id == id);
+            await LoadTransactionsAsync();
         }
 
-        protected async Task ConfirmAsync(Guid id)
+        protected async Task Confirm(Guid id)
         {
             var patchTransaction = new PatchTransactionRequest(true);
             await TransactionService.PatchAsync(id, patchTransaction);
-            
-            InvokeAsync(() =>
-            {
+            await LoadTransactionsAsync();
+        }
 
-                StateHasChanged();
-            });
+        private async Task LoadTransactionsAsync()
+        {
+            Transactions = await TransactionService.ListAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.Blazor.Shared.Origin;
+using MyFinances.Core.Aggregates.Specifications;
 using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 
@@ -22,7 +23,8 @@ namespace MyFinances.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            List<Origin> origins = await _originRepository.ListAsync();
+            var spec = new OriginsNotDeletedSpec();
+            List<Origin> origins = await _originRepository.ListAsync(spec);
 
             var dtos = _mapper.Map<List<OriginDto>>(origins);
             var response = new ListOriginsResponse(dtos);
@@ -51,7 +53,9 @@ namespace MyFinances.API.Controllers
             if (origin == null)
                 return NotFound();
 
-            await _originRepository.DeleteAsync(origin);
+            origin.SetDeletedAt(DateTime.Now);
+
+            await _originRepository.SaveChangesAsync();
 
             return NoContent();
         }

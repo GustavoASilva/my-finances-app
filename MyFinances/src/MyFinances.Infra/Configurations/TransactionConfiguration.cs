@@ -13,6 +13,16 @@ namespace MyFinances.Infra.Configurations
             builder.HasOne<Origin>()
                 .WithMany()
                 .HasForeignKey(p => p.OriginId);
+
+            builder
+           .Property<int>("_categoryId")
+           .UsePropertyAccessMode(PropertyAccessMode.Field)
+           .HasColumnName("CategoryId")
+           .IsRequired();
+
+            builder.HasOne(p => p.Category)
+                .WithMany()
+                .HasForeignKey("_categoryId");
         }
     }
 }

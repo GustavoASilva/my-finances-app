@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyFinances.Infra;
 
@@ -10,9 +11,10 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220412203147_CategorySeed")]
+    partial class CategorySeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,6 +122,9 @@ namespace MyFinances.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ConfirmedDate")
                         .HasColumnType("datetime(6)");
 
@@ -139,15 +144,9 @@ namespace MyFinances.Infra.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("_categoryId")
-                        .HasColumnType("int")
-                        .HasColumnName("CategoryId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OriginId");
-
-                    b.HasIndex("_categoryId");
 
                     b.ToTable("Transactions");
                 });
@@ -159,14 +158,6 @@ namespace MyFinances.Infra.Migrations
                         .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MyFinances.Core.SyncedAggregates.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("_categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

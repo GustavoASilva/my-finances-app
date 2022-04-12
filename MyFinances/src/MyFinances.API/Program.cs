@@ -49,7 +49,6 @@ var assemblies = new Assembly[]
 builder.Services.AddMediatR(assemblies);
 
 var app = builder.Build();
-
 app.MigrateDatabase<AppDbContext>();
 
 if (app.Environment.IsDevelopment())

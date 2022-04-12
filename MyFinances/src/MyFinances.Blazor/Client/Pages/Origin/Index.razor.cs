@@ -15,6 +15,17 @@ namespace MyFinances.Blazor.Client.Pages.Origin
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadOriginsAsync();
+        }
+
+        protected async Task Delete(int id)
+        {
+            await OriginService.DeleteAsync(id);
+            await LoadOriginsAsync();
+        }
+
+        private async Task LoadOriginsAsync()
+        {
             Origins = await OriginService.ListAsync();
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace MyFinances.Blazor.Client.Models
 {
-    public class TransactionCreate
+    public class TransactionCreateDto
     {
-        public TransactionCreate()
+        public TransactionCreateDto()
         {
         }
 
@@ -12,5 +12,6 @@
         public bool IsConfirmed { get; set; }
         public int OriginId { get; set; }
         public string Description { get; set; }
+        public int CategoryId { get; set; }
     }
 }

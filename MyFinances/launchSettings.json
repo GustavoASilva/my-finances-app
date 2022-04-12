@@ -3,11 +3,13 @@
     "Docker Compose": {
       "commandName": "DockerCompose",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "myfinances.api",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
+      "composeLaunchServiceName": "myfinances.blazor.server",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}",
       "commandVersion": "1.0",
       "serviceActions": {
-        "myfinances.api": "StartDebugging"
+        "myfinances.api": "StartDebugging",
+        "myfinances.blazor.server": "StartDebugging",
+        "myfinances.db": "StartWithoutDebugging"
       }
     }
   }

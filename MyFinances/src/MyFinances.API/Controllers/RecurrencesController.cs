@@ -36,7 +36,7 @@ namespace MyFinances.API.Controllers
         public async Task<ActionResult<RecurrenceDto>> Post([FromBody] CreateRecurrenceRequest recurrence)
         {
             var householdId = 1;
-            var toModel = new Recurrence(recurrence.Start, recurrence.End, recurrence.DaysInterval, recurrence.Value, recurrence.TransactionCategory, recurrence.Name, householdId, recurrence.OriginId);
+            var toModel = new Recurrence(recurrence.Start, recurrence.End, recurrence.DaysInterval, recurrence.Value, recurrence.TransactionCategoryId, recurrence.Name, householdId, recurrence.OriginId);
 
             var created = await _recurrenceRepository.AddAsync(toModel);
 
@@ -48,7 +48,7 @@ namespace MyFinances.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var recurrence = await _recurrenceRepository.GetByIdAsync(id);
 

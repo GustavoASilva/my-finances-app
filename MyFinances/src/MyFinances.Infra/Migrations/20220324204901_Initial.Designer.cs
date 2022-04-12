@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyFinances.Infra;
 
@@ -10,46 +11,15 @@ using MyFinances.Infra;
 namespace MyFinances.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220324204901_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Mercado"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Alimentação"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Outros"
-                        });
-                });
 
             modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Origin", b =>
                 {
@@ -103,7 +73,7 @@ namespace MyFinances.Infra.Migrations
                     b.Property<DateOnly>("Start")
                         .HasColumnType("date");
 
-                    b.Property<int>("TransactionCategoryId")
+                    b.Property<int>("TransactionCategory")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Value")
@@ -119,6 +89,9 @@ namespace MyFinances.Infra.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("ConfirmedDate")
                         .HasColumnType("datetime(6)");
@@ -139,15 +112,9 @@ namespace MyFinances.Infra.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");
 
-                    b.Property<int>("_categoryId")
-                        .HasColumnType("int")
-                        .HasColumnName("CategoryId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OriginId");
-
-                    b.HasIndex("_categoryId");
 
                     b.ToTable("Transactions");
                 });
@@ -159,14 +126,6 @@ namespace MyFinances.Infra.Migrations
                         .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MyFinances.Core.SyncedAggregates.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("_categoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

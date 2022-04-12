@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyFinances.Core.SyncedAggregates
+﻿namespace MyFinances.Core.SyncedAggregates
 {
-    public enum Category
+    public class Category
+        : Enumeration
     {
-        Food,
-        Market,
-        Salary
+        public static Category Market = new Category(1, "Mercado");
+        public static Category Food = new Category(2, "Alimentação");
+        public static Category Others = new Category(3, "Outros");
+
+        public Category(int id, string name)
+            : base(id, name)
+        {
+        }
+
+        public static IEnumerable<Category> List() =>
+            new[] { Market, Food, Others };
     }
 }

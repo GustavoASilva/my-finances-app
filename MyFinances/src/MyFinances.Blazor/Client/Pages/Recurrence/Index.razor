@@ -21,7 +21,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between">
                             <button class="btn btn-sm btn-primary"> Detalhes</button>
-                            <button class="btn btn-sm btn-danger"> Deletar</button>
+                            <button class="btn btn-sm btn-danger" @onclick="async () =>  await Delete(recurrence.Id)"> Deletar</button>
                         </div>
                     </div>
                 </div>

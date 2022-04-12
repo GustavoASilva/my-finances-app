@@ -7,7 +7,9 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://myfinancesapi.azurewebsites.net/api/") });
+var apiUrl = builder.Configuration.GetValue<string>("API_URL");
+
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 
 builder.Services.AddScoped<OriginService>();
 builder.Services.AddScoped<TransactionService>();

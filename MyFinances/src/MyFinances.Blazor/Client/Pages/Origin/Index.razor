@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Apelido</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,18 @@
         {
             <tr>
                 <td>@origin.Alias</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ações
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" @onclick="async () => await Delete(origin.Id)">Deletar</button>
+                        </div>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>

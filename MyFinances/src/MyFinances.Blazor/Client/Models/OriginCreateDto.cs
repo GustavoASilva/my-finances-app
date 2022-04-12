@@ -1,10 +1,10 @@
 ﻿namespace MyFinances.Blazor.Client.Models
 {
-    public class OriginCreate
+    public class OriginCreateDto
     {
         public string Alias;
 
-        public OriginCreate()
+        public OriginCreateDto()
         {
         }
     }

@@ -29,6 +29,5 @@
         </div>
     </div>
 </div>
-<DashboardCharts Transactions="Transactions" />
-@*    <MyFinances.Blazor.Client.Pages.Transaction.Index />*@
+<DashboardCharts Transactions="Transactions.Where(x => x.ConfirmedDate != null).ToList()" />
 

@@ -8,7 +8,7 @@ namespace MyFinances.Blazor.Shared.Recurrence
         public DateTime End { get; set; }
         public int DaysInterval { get; set; }
         public decimal Value { get; set; }
-        public Category TransactionCategory { get; set; }
+        public int TransactionCategoryId { get; set; }
         public string Name { get; set; }
         public int OriginId { get; set; }
     }

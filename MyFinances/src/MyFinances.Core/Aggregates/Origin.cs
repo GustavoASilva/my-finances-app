@@ -21,7 +21,7 @@ namespace MyFinances.Core.SyncedAggregates
 
         public string Alias { get; private set; }
         public int HouseholdId { get; private set; }
-        public DateTime DeletedAt { get; private set; }
+        public DateTime? DeletedAt { get; private set; }
 
         public void SetDeletedAt(DateTime dateTime)
         {

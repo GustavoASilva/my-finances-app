@@ -17,11 +17,13 @@ services:
     environment:
         MYSQL_ROOT_PASSWORD: Gg@03102020
     ports:
-    - 3306:3306 
+    - 3306:3306
+
   myfinances.blazor.server:
     image: ${DOCKER_REGISTRY-}myfinancesblazorserver
     build:
       context: .
       dockerfile: src/MyFinances.Blazor/Server/Dockerfile
-
     depends_on: [ myfinances.api ]
+    ports:
+    - 8081:443

@@ -24,7 +24,7 @@
             <tr>
                 <td>@transaction.Description</td>
                 <td>@transaction.Value.ToString("C")</td>
-                <td>@Origins.First(o => o.Id == transaction.OriginId).Alias</td>
+                <td>@transaction.OriginName</td>
                 <td>@transaction.Category</td>
                 <td>@transaction.EstimatedDate.ToString("dd/MM/yyyy")</td>
                 <td>@(transaction.ConfirmedDate.HasValue ? @transaction.ConfirmedDate.Value.ToString("dd/MM/yyyy") : "-")</td>
@@ -36,9 +36,9 @@
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             @if (transaction.ConfirmedDate == null)
                             {
-                                <button class="dropdown-item" @onclick="() => ConfirmAsync(transaction.Id)">Confirmar</button>
+                                <button class="dropdown-item" @onclick="() => Confirm(transaction.Id)">Confirmar</button>
                             }
-                            <button class="dropdown-item" @onclick="() => DeleteAsync(transaction.Id)">Deletar</button>
+                            <button class="dropdown-item" @onclick="async () => await Delete(transaction.Id)">Deletar</button>
                         </div>
                     </div>
                 </td>

@@ -19,9 +19,22 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadRecurrencesAsync();
             Recurrences = await RecurrenceService.ListAsync();
 
             await base.OnInitializedAsync();
         }
+
+        private async Task LoadRecurrencesAsync()
+        {
+            Recurrences = await RecurrenceService.ListAsync();
+        }
+
+        protected async Task Delete(Guid id)
+        {
+            await RecurrenceService.DeleteAsync(id);
+            await LoadRecurrencesAsync();
+        }
+
     }
 }
