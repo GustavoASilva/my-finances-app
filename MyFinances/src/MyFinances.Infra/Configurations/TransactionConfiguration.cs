@@ -17,7 +17,7 @@ namespace MyFinances.Infra.Configurations
             builder
            .Property<int>("_categoryId")
            .UsePropertyAccessMode(PropertyAccessMode.Field)
-           .HasColumnName("CategoryId")
+           .HasColumnName("TransactionCategoryId")
            .IsRequired();
 
             builder.HasOne(p => p.Category)

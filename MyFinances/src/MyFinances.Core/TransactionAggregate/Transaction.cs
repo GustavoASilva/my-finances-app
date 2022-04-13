@@ -22,7 +22,7 @@ namespace MyFinances.Core.TransactionAggregate
 
         public decimal Value { get; private set; }
         public string Description { get; private set; }
-        public Category Category { get;  set; }
+        public TransactionCategory Category { get;  set; }
         public int HouseholdId { get; }
         public int OriginId { get; private set; }
         public DateTime EstimatedDate { get; private set; }

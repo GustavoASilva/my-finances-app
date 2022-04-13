@@ -9,7 +9,14 @@ namespace MyFinances.Core.SyncedAggregates
         {
         }
 
-        public Recurrence(DateTime start, DateTime end, int daysInterval, decimal value, int transactionCategoryId, string description, int householdId, int originId)
+        public Recurrence(DateTime start,
+                          DateTime end,
+                          int daysInterval,
+                          decimal value,
+                          int transactionCategoryId,
+                          string description,
+                          int householdId,
+                          int originId)
         {
             DateOnly startDate = DateOnly.FromDateTime(start);
             DateOnly endDate = DateOnly.FromDateTime(end);
@@ -18,11 +25,11 @@ namespace MyFinances.Core.SyncedAggregates
             End = endDate;
             DaysInterval = daysInterval;
             Value = value;
-            TransactionCategoryId = transactionCategoryId;
             Name = description;
             HouseholdId = householdId;
             OriginId = originId;
             NextOccurrence = startDate;
+            _transactionCategoryId = transactionCategoryId;
         }
 
         public DateOnly Start { get; private set; }
@@ -31,17 +38,18 @@ namespace MyFinances.Core.SyncedAggregates
         public DateOnly NextOccurrence { get; private set; }
         public int DaysInterval { get; private set; }
         public decimal Value { get; private set; }
-        public int TransactionCategoryId { get; private set; }
+        public TransactionCategory TransactionCategory { get; private set; }
         public string Name { get; private set; }
         public int HouseholdId { get; private set; }
         public int OriginId { get; private set; }
+        private int _transactionCategoryId;
 
         public void Apply()
         {
             UpdateLatestOccurrence();
             UpdateNextOccurrence();
 
-            var recurrenceAppliedEvent = new RecurrenceAppliedDomainEvent(NextOccurrence, Name, Value, TransactionCategoryId, HouseholdId, OriginId);
+            RecurrenceAppliedDomainEvent recurrenceAppliedEvent = new(NextOccurrence, Name, Value, _transactionCategoryId, HouseholdId, OriginId);
 
             AddDomainEvent(recurrenceAppliedEvent);
         }

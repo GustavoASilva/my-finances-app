@@ -31,6 +31,21 @@ namespace MyFinances.Infra.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "TransactionCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TransactionCategory", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Recurrences",
                 columns: table => new
                 {
@@ -41,7 +56,7 @@ namespace MyFinances.Infra.Migrations
                     NextOccurrence = table.Column<DateOnly>(type: "date", nullable: false),
                     DaysInterval = table.Column<int>(type: "int", nullable: false),
                     Value = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    TransactionCategory = table.Column<int>(type: "int", nullable: false),
+                    TransactionCategoryId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     HouseholdId = table.Column<int>(type: "int", nullable: false),
@@ -50,6 +65,12 @@ namespace MyFinances.Infra.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Recurrences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Recurrences_TransactionCategory_TransactionCategoryId",
+                        column: x => x.TransactionCategoryId,
+                        principalTable: "TransactionCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -61,7 +82,7 @@ namespace MyFinances.Infra.Migrations
                     Value = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Category = table.Column<int>(type: "int", nullable: false),
+                    TransactionCategoryId = table.Column<int>(type: "int", nullable: false),
                     OriginId = table.Column<int>(type: "int", nullable: false),
                     EstimatedDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ConfirmedDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -76,13 +97,44 @@ namespace MyFinances.Infra.Migrations
                         principalTable: "Origins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Transactions_TransactionCategory_TransactionCategoryId",
+                        column: x => x.TransactionCategoryId,
+                        principalTable: "TransactionCategory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "TransactionCategory",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Mercado" });
+
+            migrationBuilder.InsertData(
+                table: "TransactionCategory",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Alimentação" });
+
+            migrationBuilder.InsertData(
+                table: "TransactionCategory",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 3, "Outros" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recurrences_TransactionCategoryId",
+                table: "Recurrences",
+                column: "TransactionCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_OriginId",
                 table: "Transactions",
                 column: "OriginId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_TransactionCategoryId",
+                table: "Transactions",
+                column: "TransactionCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -95,6 +147,9 @@ namespace MyFinances.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Origins");
+
+            migrationBuilder.DropTable(
+                name: "TransactionCategory");
         }
     }
 }

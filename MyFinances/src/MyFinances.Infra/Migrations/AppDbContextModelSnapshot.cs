@@ -19,38 +19,6 @@ namespace MyFinances.Infra.Migrations
                 .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Mercado"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Alimentação"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Outros"
-                        });
-                });
-
             modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Origin", b =>
                 {
                     b.Property<int>("Id")
@@ -103,15 +71,50 @@ namespace MyFinances.Infra.Migrations
                     b.Property<DateOnly>("Start")
                         .HasColumnType("date");
 
-                    b.Property<int>("TransactionCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int>("_transactionCategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("TransactionCategoryId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("_transactionCategoryId");
+
                     b.ToTable("Recurrences");
+                });
+
+            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.TransactionCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TransactionCategory");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Mercado"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Alimentação"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Outros"
+                        });
                 });
 
             modelBuilder.Entity("MyFinances.Core.TransactionAggregate.Transaction", b =>
@@ -141,7 +144,7 @@ namespace MyFinances.Infra.Migrations
 
                     b.Property<int>("_categoryId")
                         .HasColumnType("int")
-                        .HasColumnName("CategoryId");
+                        .HasColumnName("TransactionCategoryId");
 
                     b.HasKey("Id");
 
@@ -152,6 +155,17 @@ namespace MyFinances.Infra.Migrations
                     b.ToTable("Transactions");
                 });
 
+            modelBuilder.Entity("MyFinances.Core.SyncedAggregates.Recurrence", b =>
+                {
+                    b.HasOne("MyFinances.Core.SyncedAggregates.TransactionCategory", "TransactionCategory")
+                        .WithMany()
+                        .HasForeignKey("_transactionCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TransactionCategory");
+                });
+
             modelBuilder.Entity("MyFinances.Core.TransactionAggregate.Transaction", b =>
                 {
                     b.HasOne("MyFinances.Core.SyncedAggregates.Origin", null)
@@ -160,7 +174,7 @@ namespace MyFinances.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyFinances.Core.SyncedAggregates.Category", "Category")
+                    b.HasOne("MyFinances.Core.SyncedAggregates.TransactionCategory", "Category")
                         .WithMany()
                         .HasForeignKey("_categoryId")
                         .OnDelete(DeleteBehavior.Cascade)

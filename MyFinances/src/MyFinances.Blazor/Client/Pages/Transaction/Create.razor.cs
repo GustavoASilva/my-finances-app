@@ -22,12 +22,12 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 
         public TransactionCreateDto Model = new();
         public IEnumerable<OriginDto> Origins { get; private set; } = new List<OriginDto>();
-        public IEnumerable<Category> Categories { get; private set; } = new List<Category>();
+        public IEnumerable<TransactionCategory> Categories { get; private set; } = new List<TransactionCategory>();
 
         protected override async Task OnInitializedAsync()
         {
+            Categories = TransactionCategory.List();
             Origins = await OriginService.ListAsync();
-            Categories = Category.List();
         }
 
         private async Task HandleValidSubmitAsync()

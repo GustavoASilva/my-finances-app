@@ -31,10 +31,24 @@
         </label>
 
         <InputSelect class="form-select" @bind-Value="Model.OriginId">
-            <option value="">Selecione</option>
+            <option value="0">Selecione</option>
             @foreach (var origin in Origins)
             {
                 <option value="@origin.Id"> @origin.Alias</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            Categoria
+        </label>
+
+        <InputSelect class="form-select" @bind-Value="Model.TransactionCategoryId">
+            <option value="0">Selecione</option>
+            @foreach (var category in Categories)
+            {
+                <option value="@category.Id"> @category.Name</option>
             }
         </InputSelect>
     </div>
@@ -47,7 +61,7 @@
         <InputDate class="form-control" @bind-Value="Model.Start" />
     </div>
 
-      <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label">
             Data de Fim
         </label>

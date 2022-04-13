@@ -12,7 +12,7 @@ namespace MyFinances.Blazor.Shared.Transaction
         public decimal Value { get; set; }
         public DateTime EstimatedDate { get; set; }
         public DateTime? ConfirmedDate { get; set; }
-        public Category Category { get; set; }
+        public TransactionCategory Category { get; set; }
         public int OriginId { get; set; }
         public string Description { get; set; }
         public bool Confirmed { get; set; }

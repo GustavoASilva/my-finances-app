@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace MyFinances.Infra.Configurations
 {
-    public class TransactionCategoryConfiguration : IEntityTypeConfiguration<Category>
+    public class TransactionCategoryConfiguration : IEntityTypeConfiguration<TransactionCategory>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public void Configure(EntityTypeBuilder<TransactionCategory> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasData(Category.List());
+            builder.HasData(TransactionCategory.List());
         }
     }
 }
