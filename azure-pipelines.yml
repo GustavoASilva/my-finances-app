@@ -21,10 +21,18 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
+      displayName: Build API Image
       inputs:
         command: build
         buildContext: '$(Build.SourcesDirectory)/MyFinances'
         dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.API/Dockerfile'
+        tags: |
+          $(tag)
+    - task: Docker@2
+      displayName: Build Blazor Server Image
+      inputs:
+        command: build
+        buildContext: '$(Build.SourcesDirectory)/MyFinances'
+        dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazer/Server/Dockerfile'
         tags: |
           $(tag)
