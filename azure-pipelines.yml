@@ -33,6 +33,6 @@ stages:
       inputs:
         command: build
         buildContext: '$(Build.SourcesDirectory)/MyFinances'
-        dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazer/Server/Dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazor/Server/Dockerfile'
         tags: |
           $(tag)
