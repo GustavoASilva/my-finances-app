@@ -24,6 +24,7 @@ stages:
       displayName: Build an image
       inputs:
         command: build
+        buildContext: '$(Build.SourcesDirectory)/MyFinances/src'
         dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.API/Dockerfile'
         tags: |
           $(tag)
