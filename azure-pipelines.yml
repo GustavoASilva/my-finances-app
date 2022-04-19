@@ -22,11 +22,13 @@ stages:
     steps:
     
     - task: DotNetCoreCLI@2
+      displayName: Build all projects
       inputs:
         command: 'build'
         projects: '**/*.csproj'
 
     - task: DotNetCoreCLI@2
+      displayName: Run all Unit Tests
       inputs:
         command: 'test'
         projects: '$(Build.SourcesDirectory)/MyFinances/tests/**/*.csproj'
