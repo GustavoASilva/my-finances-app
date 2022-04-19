@@ -23,7 +23,7 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        projects: '$(Build.SourcesDirectory)/MyFinances/tests/MyFinances.UnitTests/'
+        projects: '$(Build.SourcesDirectory)/MyFinances/tests/MyFinances.UnitTests/MyFinances.UnitTests'
         publishTestResults: false
         testRunTitle: 'API Unit Tests'
         
