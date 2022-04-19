@@ -20,7 +20,7 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Net
+    - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
         projects: '$(Build.SourcesDirectory)/MyFinances/tests/MyFinances.UnitTests/MyFinances.UnitTests.csproj'
