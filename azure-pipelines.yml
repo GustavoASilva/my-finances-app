@@ -12,21 +12,6 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-- stage: Test
-  displayName: Test Applications
-  jobs:
-  - job: Test
-    displayName: Test Applications
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(Build.SourcesDirectory)/MyFinances/tests/MyFinances.UnitTests/MyFinances.UnitTests.csproj'
-        publishTestResults: false
-        testRunTitle: 'API Unit Tests'
-        
 - stage: Build
   displayName: Build image
   jobs:
@@ -35,6 +20,18 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '$(Build.SourcesDirectory)/MyFinances/tests/**/*.csproj'
+        testRunTitle: 'Running all unit tests'
+
     - task: Docker@2
       displayName: Build API Image
       inputs:
@@ -43,6 +40,7 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.API/Dockerfile'
         tags: |
           $(tag)
+
     - task: Docker@2
       displayName: Build Blazor Server Image
       inputs:
