@@ -1,7 +1,5 @@
 ﻿using MyFinances.Blazor.Shared.Transaction;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 
 namespace MyFinances.Blazor.Client.Services
 {

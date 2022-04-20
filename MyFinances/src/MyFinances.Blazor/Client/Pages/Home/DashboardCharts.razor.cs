@@ -1,49 +1,41 @@
-﻿using ChartJs.Blazor.BarChart;
-using ChartJs.Blazor.Common;
+﻿using ChartJs.Blazor.Common;
 using ChartJs.Blazor.Common.Axes;
 using ChartJs.Blazor.Common.Enums;
-using ChartJs.Blazor.Common.Time;
 using ChartJs.Blazor.LineChart;
 using ChartJs.Blazor.PieChart;
 using ChartJs.Blazor.Util;
 using Microsoft.AspNetCore.Components;
 using MyFinances.Blazor.Shared.Transaction;
 using System.Drawing;
+using System.Globalization;
 
 namespace MyFinances.Blazor.Client.Pages.Home
 {
     public partial class DashboardCharts
     {
-        IndexableOption<string> Colors = new[]
-                {
-                    ColorUtil.ColorHexString(255, 99, 132), // Slice 1 aka "Red"
-                    ColorUtil.ColorHexString(255, 205, 86), // Slice 2 aka "Yellow"
-                    ColorUtil.ColorHexString(75, 192, 192), // Slice 3 aka "Green"
-                    ColorUtil.ColorHexString(54, 162, 235), // Slice 4 aka "Blue"
-                };
-        List<ConfigBase> ChartConfigs = new List<ConfigBase>();
-
         [Parameter]
         public List<TransactionDto> Transactions { get; set; } = new List<TransactionDto>();
 
+        readonly IndexableOption<string> Colors = new[]
+        {
+            ColorUtil.FromDrawingColor(Color.Red),
+            ColorUtil.FromDrawingColor(Color.Yellow),
+            ColorUtil.FromDrawingColor(Color.Green),
+            ColorUtil.FromDrawingColor(Color.Blue),
+        };
+
+        PieConfig? TransactionsByCategoryRank;
+        LineConfig? TransactionsEvolution;
+
         protected override void OnParametersSet()
         {
-            var pie = GetPieConfig();
-
-            ChartConfigs.Add(pie);
-
-            var line = GetBarConfig();
-            ChartConfigs.Add(line);
-
+            SetTransactionsByCategoryRank();
+            SetTransactionsEvolution();
         }
 
-        LineConfig GetBarConfig()
+        private void SetTransactionsEvolution()
         {
-            var map = Transactions
-                .GroupBy(x => x.ConfirmedDate.Value.ToString("dd/MM/yyyy"))
-                .ToDictionary(x => x.Key, y => y.Sum(z => z.Value));
-
-            var barConfig = new LineConfig
+            LineConfig lineConfig = new()
             {
                 Options = new LineOptions
                 {
@@ -52,65 +44,75 @@ namespace MyFinances.Blazor.Client.Pages.Home
                     Title = new OptionsTitle
                     {
                         Display = true,
-                        Text = "Ranking por Categoria"
+                        Text = "Evolução do Saldo"
+                    },
+                    Tooltips = new Tooltips
+                    {
+                        Mode = InteractionMode.Nearest,
+                        Intersect = true
+                    },
+                    Hover = new Hover
+                    {
+                        Mode = InteractionMode.Nearest,
+                        Intersect = true
                     },
                     Scales = new Scales
                     {
                         XAxes = new List<CartesianAxis>
-                    {
-                        new TimeAxis
                         {
-                            ScaleLabel = new ScaleLabel
+                            new CategoryAxis
                             {
-                                LabelString = "Data"
-                            },
-                            Time = new TimeOptions
-                            {
-                                TooltipFormat = "dd/MM/yyyy"
-                            },
-                        }
-                    },
+                                ScaleLabel = new ScaleLabel
+                                {
+                                    LabelString = "Mês"
+                                }
+                            }
+                        },
                         YAxes = new List<CartesianAxis>
-                    {
-                        new LinearCartesianAxis
                         {
-                            ScaleLabel = new ScaleLabel
+                            new LinearCartesianAxis
                             {
-                                LabelString = "Valor"
+                                ScaleLabel = new ScaleLabel
+                                {
+                                    LabelString = "Valor"
+                                }
                             }
                         }
-                    }
                     }
                 }
             };
 
-            foreach (string category in map.Keys)
+            var culture = CultureInfo.GetCultureInfo("pt-BR");
+            var dateTimeFormat = culture.DateTimeFormat;
+
+            var monthNameGroupings = Transactions
+                .GroupBy(x => dateTimeFormat.GetMonthName(x.ConfirmedDate!.Value.Month).ToUpper());
+
+            var labels = monthNameGroupings.Select(x => x.Key);
+
+            foreach (string category in labels)
             {
-                barConfig.Data.Labels.Add(category);
+                lineConfig.Data.Labels.Add(category);
             }
 
-            IEnumerable<decimal> data = map.Select(x => x.Value);
+            IEnumerable<decimal> sumData = monthNameGroupings.Select(x => x.Sum(y => y.Value));
 
-            LineDataset<decimal> dataset = new LineDataset<decimal>(data)
+            LineDataset<decimal> dataset = new(sumData)
             {
-                Label = "My first dataset",
-                BackgroundColor = ColorUtil.FromDrawingColor(Color.Red),
-                BorderColor = ColorUtil.FromDrawingColor(Color.Red),
+                Label = "Saldo por Mês",
+                BackgroundColor = ColorUtil.FromDrawingColor(Color.Blue),
+                BorderColor = ColorUtil.FromDrawingColor(Color.Blue),
                 Fill = FillingMode.Disabled
             };
 
-            barConfig.Data.Datasets.Add(dataset);
+            lineConfig.Data.Datasets.Add(dataset);
 
-            return barConfig;
+            TransactionsEvolution = lineConfig;
         }
 
-        PieConfig GetPieConfig()
+        private void SetTransactionsByCategoryRank()
         {
-            var map = Transactions
-                .GroupBy(x => x.Category)
-                .ToDictionary(x => x.Key, y => y.Sum(z => z.Value));
-
-            var pieConfig = new PieConfig
+            PieConfig pieConfig = new()
             {
                 Options = new PieOptions
                 {
@@ -123,23 +125,26 @@ namespace MyFinances.Blazor.Client.Pages.Home
                     },
                 }
             };
-            foreach (string category in map.Keys)
+
+            var categoryGroupings = Transactions
+                .GroupBy(x => x.Category);
+
+            var labels = categoryGroupings.Select(x => x.Key);
+
+            foreach (string category in labels)
             {
                 pieConfig.Data.Labels.Add(category);
             }
 
-            IEnumerable<decimal> data = map.Select(x => x.Value);
+            IEnumerable<decimal> sumData = categoryGroupings.Select(x => x.Sum(y => y.Value));
 
-            PieDataset<decimal> dataset = new PieDataset<decimal>(data)
+            PieDataset<decimal> dataset = new(sumData)
             {
                 BackgroundColor = Colors,
             };
 
             pieConfig.Data.Datasets.Add(dataset);
-            return pieConfig;
+            TransactionsByCategoryRank = pieConfig;
         }
-
     }
-
-
 }

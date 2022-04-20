@@ -11,7 +11,7 @@
         public DateTime? ConfirmedDate { get; set; }
         public bool IsConfirmed { get; set; }
         public int OriginId { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
         public int CategoryId { get; set; }
     }
 }

@@ -9,9 +9,9 @@ namespace MyFinances.Infra
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Origin> Origins { get; set; }
-        public DbSet<Recurrence> Recurrences { get; set; }
+        public DbSet<Transaction> Transactions => Set<Transaction>();
+        public DbSet<Origin> Origins => Set<Origin>();
+        public DbSet<Recurrence> Recurrences => Set<Recurrence>();
 
         private readonly IMediator _mediator;
 
@@ -29,18 +29,18 @@ namespace MyFinances.Infra
         {
             int result = 0;
 
-            // ignore events if no dispatcher provided
             if (_mediator == null) return result;
 
             var entitiesWithEvents = ChangeTracker
                 .Entries()
-                .Select(e => e.Entity as BaseEntity<Guid>)
-                .Where(e => e?.DomainEvents != null && e.DomainEvents.Any())
+                .Select(e => (BaseEntity<Guid>)e.Entity)
+                .Where(e => e.DomainEvents != null && e.DomainEvents.Any())
                 .ToArray();
 
             foreach (var entity in entitiesWithEvents)
             {
                 var events = entity.DomainEvents.ToArray();
+
                 entity.DomainEvents.Clear();
                 foreach (var domainEvent in events)
                 {

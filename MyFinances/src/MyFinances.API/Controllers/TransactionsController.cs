@@ -26,18 +26,18 @@ namespace MyFinances.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(DateTime? estimatedDateStart, DateTime? estimatedDateEnd)
         {
-            var spec = new TransactionFilterSpec(estimatedDateStart, estimatedDateEnd);
+            TransactionFilterSpec spec = new(estimatedDateStart, estimatedDateEnd);
 
-            var transactions = await _transactionRepository.ListAsync(spec);
-            var transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
+            List<Transaction> transactions = await _transactionRepository.ListAsync(spec);
+            List<TransactionDto> transactionsDto = _mapper.Map<List<TransactionDto>>(transactions);
 
-            var origins = await _originRepository.ListAsync();
+            List<Origin> origins = await _originRepository.ListAsync();
             foreach (var transaction in transactionsDto)
             {
                 transaction.OriginName = origins.Single(o => o.Id == transaction.OriginId).Alias;
             }
 
-            var response = new ListTransactionsResponse(transactionsDto);
+            ListTransactionsResponse response = new(transactionsDto);
             return Ok(response);
         }
 
@@ -45,7 +45,13 @@ namespace MyFinances.API.Controllers
         public async Task<IActionResult> Post([FromBody] CreateTransactionRequest transaction)
         {
             var householdId = 1;
-            var toModel = new Transaction(transaction.Value, transaction.CategoryId, householdId, transaction.OriginId, transaction.Description, transaction.EstimatedDate);
+            var toModel = new Transaction(transaction.Value,
+                                          transaction.CategoryId,
+                                          householdId,
+                                          transaction.OriginId,
+                                          transaction.Description,
+                                          transaction.EstimatedDate,
+                                          transaction.ConfirmedDate);
 
             var created = await _transactionRepository.AddAsync(toModel);
 

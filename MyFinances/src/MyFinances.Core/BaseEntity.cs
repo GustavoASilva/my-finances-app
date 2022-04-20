@@ -1,22 +1,16 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyFinances.Core
 {
     public abstract class BaseEntity<TId>
     {
-        public TId Id { get; set; }
+        public TId Id { get; set; } = default!;
 
-        private List<INotification> _domainEvents;
+        private List<INotification> _domainEvents = new();
         public List<INotification> DomainEvents => _domainEvents;
 
         public void AddDomainEvent(INotification eventItem)
         {
-            _domainEvents = _domainEvents ?? new List<INotification>();
             _domainEvents.Add(eventItem);
         }
 

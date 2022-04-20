@@ -1,7 +1,4 @@
-﻿using ChartJs.Blazor.Common;
-using ChartJs.Blazor.PieChart;
-using ChartJs.Blazor.Util;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MyFinances.Blazor.Client.Services;
 using MyFinances.Blazor.Shared.Transaction;
 
@@ -10,9 +7,9 @@ namespace MyFinances.Blazor.Client.Pages.Home
     public partial class Index
     {
         [Inject]
-        TransactionService TransactionService { get; set; }
+        TransactionService TransactionService { get; set; } = default!;
 
-        List<TransactionDto> Transactions = new List<TransactionDto>();
+        List<TransactionDto> Transactions = new();
 
         decimal ActualBalance = 0;
         decimal EstimatedBalance = 0;
@@ -25,8 +22,8 @@ namespace MyFinances.Blazor.Client.Pages.Home
             {
                 if (transaction.ConfirmedDate != null)
                     ActualBalance += transaction.Value;
-                else
-                    EstimatedBalance += transaction.Value;
+
+                EstimatedBalance += transaction.Value;
             }
         }
     }

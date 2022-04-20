@@ -2,10 +2,8 @@
 {
     public class OriginCreateDto
     {
-        public string Alias;
+        public OriginCreateDto() { }
 
-        public OriginCreateDto()
-        {
-        }
+        public string Alias { get; set; } = default!;
     }
 }

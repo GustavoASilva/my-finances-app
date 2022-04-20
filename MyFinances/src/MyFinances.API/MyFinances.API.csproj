@@ -33,4 +33,8 @@
     <ProjectReference Include="..\MyFinances.Infra\MyFinances.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+  </ItemGroup>
+
 </Project>

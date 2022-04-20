@@ -7,15 +7,13 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
     public partial class Index
     {
         [Inject]
-        TransactionService TransactionService { get; set; }
+        TransactionService TransactionService { get; set; } = default!;
 
-        List<TransactionDto> Transactions { get; set; } = new List<TransactionDto>();
+        List<TransactionDto> Transactions { get; set; } = new();
 
         protected override async Task OnInitializedAsync()
         {
             await LoadTransactionsAsync();
-
-            await base.OnInitializedAsync();
         }
 
         protected async Task Delete(Guid id)

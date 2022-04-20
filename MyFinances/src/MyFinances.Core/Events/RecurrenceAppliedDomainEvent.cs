@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.Core.Events
 {

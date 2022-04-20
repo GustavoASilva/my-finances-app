@@ -6,11 +6,29 @@ namespace MyFinances.Core.TransactionAggregate
 {
     public class Transaction : BaseEntity<Guid>, IAggregateRoot
     {
-        public Transaction()
+        public Transaction(decimal value,
+                           int categoryId,
+                           int householdId,
+                           int originId,
+                           string description,
+                           DateTime estimatedDate,
+                           DateTime? confirmedDate)
         {
+            Value = Guard.Against.Zero(value, nameof(Value));
+            HouseholdId = householdId;
+            Description = description;
+            EstimatedDate = estimatedDate;
+            ConfirmedDate = confirmedDate;
+            OriginId = originId;
+            _categoryId = categoryId;
         }
 
-        public Transaction(decimal value, int categoryId, int householdId, int originId, string description, DateTime estimatedDate)
+        public Transaction(decimal value,
+                           int categoryId,
+                           int householdId,
+                           int originId,
+                           string description,
+                           DateTime estimatedDate)
         {
             Value = Guard.Against.Zero(value, nameof(Value));
             HouseholdId = householdId;
@@ -22,7 +40,7 @@ namespace MyFinances.Core.TransactionAggregate
 
         public decimal Value { get; private set; }
         public string Description { get; private set; }
-        public TransactionCategory Category { get;  set; }
+        public TransactionCategory Category { get; set; } = default!;
         public int HouseholdId { get; }
         public int OriginId { get; private set; }
         public DateTime EstimatedDate { get; private set; }
