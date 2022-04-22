@@ -51,6 +51,11 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazor/Server/Dockerfile'
         tags: |
           $(tag)
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: 'myfinancesapi'
+        command: 'push'
 
     - task: AzureRmWebAppDeployment@4
       inputs:
