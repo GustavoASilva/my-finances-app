@@ -2,20 +2,16 @@
 using MyFinances.Blazor.Client.Models;
 using MyFinances.Blazor.Client.Services;
 using MyFinances.Blazor.Shared.Origin;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace MyFinances.Blazor.Client.Pages.Origin
 {
-
     public partial class Create
     {
         [Inject]
-        OriginService OriginService { get; set; }
+        OriginService OriginService { get; set; } = default!;
 
         [Inject]
-        NavigationManager NavManager { get; set; }
+        NavigationManager NavigationManager { get; set; } = default!;
 
         OriginCreateDto Model = new();
 
@@ -26,7 +22,7 @@ namespace MyFinances.Blazor.Client.Pages.Origin
             OriginDto? origin = await OriginService.CreateAsync(createRequest);
 
             if (origin != null)
-                NavManager.NavigateTo("/origin");
+                NavigationManager.NavigateTo("/origin");
         }
     }
 }

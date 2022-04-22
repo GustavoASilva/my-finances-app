@@ -14,10 +14,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__mysqlConnectionName": "Server=\"myfinancesdb.mysql.database.azure.com\";UserID = \"gustavoavila\";Password=\"Gstv@03102020\";Database=\"MyFinances\";"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:7073;http://localhost:5073",
+      "applicationUrl": "https://localhost:8080;",
       "dotnetRunMessages": true
     },
     "IIS Express": {

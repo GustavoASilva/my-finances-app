@@ -4,21 +4,19 @@ using MyFinances.Blazor.Client.Services;
 using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Blazor.Shared.Transaction;
 using MyFinances.Core.SyncedAggregates;
-using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace MyFinances.Blazor.Client.Pages.Transaction
 {
     public partial class Create
     {
         [Inject]
-        private OriginService OriginService { get; set; }
+        private OriginService OriginService { get; set; } = default!;
 
         [Inject]
-        private TransactionService TransactionService { get; set; }
+        private TransactionService TransactionService { get; set; } = default!;
 
         [Inject]
-        NavigationManager NavManager { get; set; }
+        NavigationManager NavigationManager { get; set; } = default!;
 
         public TransactionCreateDto Model = new();
         public IEnumerable<OriginDto> Origins { get; private set; } = new List<OriginDto>();
@@ -32,20 +30,16 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
 
         private async Task HandleValidSubmitAsync()
         {
-            var requestModel = new CreateTransactionRequest()   
-            {
-                EstimatedDate = Model.EstimatedDate,
-                Value = Model.Value,
-                ConfirmedDate = Model.ConfirmedDate,
-                OriginId = Model.OriginId,
-                Description = Model.Description,
-                CategoryId = Model.CategoryId
-            };
+            CreateTransactionRequest requestModel = new(Model.Description,
+                                                        Model.Value,
+                                                        Model.EstimatedDate,
+                                                        Model.ConfirmedDate,
+                                                        Model.CategoryId,
+                                                        Model.OriginId);
 
-            
             TransactionDto? transaction = await TransactionService.CreateAsync(requestModel);
-            if(transaction != null)
-                NavManager.NavigateTo("/transaction");
+            if (transaction != null)
+                NavigationManager.NavigateTo("/transaction");
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using MyFinances.Core.SyncedAggregates;
-
-namespace MyFinances.Blazor.Client.Models
+﻿namespace MyFinances.Blazor.Client.Models
 {
     public class RecurrenceCreateDto
     {
@@ -13,7 +11,7 @@ namespace MyFinances.Blazor.Client.Models
         public int DaysInterval { get; set; }
         public decimal Value { get; set; }
         public int TransactionCategoryId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
         public int OriginId { get; set; }
     }
 }

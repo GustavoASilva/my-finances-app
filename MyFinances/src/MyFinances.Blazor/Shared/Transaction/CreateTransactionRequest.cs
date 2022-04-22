@@ -1,11 +1,20 @@
-﻿using MyFinances.Core.SyncedAggregates;
-
-namespace MyFinances.Blazor.Shared.Transaction
+﻿namespace MyFinances.Blazor.Shared.Transaction
 {
     public class CreateTransactionRequest
     {
-        public CreateTransactionRequest()
+        public CreateTransactionRequest(string description,
+                                        decimal value,
+                                        DateTime estimatedDate,
+                                        DateTime? confirmedDate,
+                                        int categoryId,
+                                        int originId)
         {
+            Description = description;
+            Value = value;
+            EstimatedDate = estimatedDate;
+            ConfirmedDate = confirmedDate;
+            CategoryId = categoryId;
+            OriginId = originId;
         }
 
         public string Description { get; set; }
@@ -14,9 +23,6 @@ namespace MyFinances.Blazor.Shared.Transaction
         public DateTime EstimatedDate { get; set; }
         public DateTime? ConfirmedDate { get; set; }
         public int CategoryId { get; set; }
-
-        public int InstallmentsNumber { get; set; }
-
         public int OriginId { get; set; }
     }
 }

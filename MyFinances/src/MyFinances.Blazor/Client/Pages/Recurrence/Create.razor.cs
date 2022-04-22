@@ -4,24 +4,22 @@ using MyFinances.Blazor.Client.Services;
 using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Blazor.Shared.Recurrence;
 using MyFinances.Core.SyncedAggregates;
-using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace MyFinances.Blazor.Client.Pages.Recurrence
 {
     public partial class Create
     {
         [Inject]
-        private OriginService OriginService { get; set; }
+        private OriginService OriginService { get; set; } = default!;
 
         [Inject]
-        private RecurrenceService RecurrenceService { get; set; }
+        private RecurrenceService RecurrenceService { get; set; } = default!;
 
         [Inject]
-        private NavigationManager navigationManager { get; set; }
+        private NavigationManager NavigationManager { get; set; } = default!;
 
 
-        public RecurrenceCreateDto Model = new RecurrenceCreateDto();
+        public RecurrenceCreateDto Model = new();
         public List<OriginDto> Origins { get; private set; } = new List<OriginDto>();
         public List<TransactionCategory> Categories = new List<TransactionCategory>();
 
@@ -35,8 +33,8 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
         {
             var requestModel = new CreateRecurrenceRequest()
             {
-                Start = Model.Start.Value,
-                End = Model.End.Value,
+                Start = Model.Start!.Value,
+                End = Model.End!.Value,
                 Value = Model.Value,
                 DaysInterval = Model.DaysInterval,
                 Name = Model.Name,
@@ -46,7 +44,7 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
 
             var createdDto = await RecurrenceService.CreateAsync(requestModel);
             if (createdDto != null)
-                navigationManager.NavigateTo("/recurrence");
+                NavigationManager.NavigateTo("/recurrence");
 
         }
     }

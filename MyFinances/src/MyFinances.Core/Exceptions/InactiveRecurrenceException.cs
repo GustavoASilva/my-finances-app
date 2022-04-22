@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyFinances.Core.Exceptions
+﻿namespace MyFinances.Core.Exceptions
 {
     public class InactiveRecurrenceException : BusinessException
     {

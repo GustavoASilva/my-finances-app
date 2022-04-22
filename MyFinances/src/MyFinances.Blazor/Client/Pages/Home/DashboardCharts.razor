@@ -1,9 +1,14 @@
 ﻿@if (Transactions.Count > 0)
 {
-    foreach (var chartConfig in ChartConfigs)
-    {
-        <div>
-            <Chart Config=chartConfig Height="250" Width="250" />
+    <div class="row">
+    
+
+        <div class="col-6">
+            <Chart Config=TransactionsByCategoryRank  Height="250" Width="250" />
         </div>
-    }
+
+        <div class="col-6">
+            <Chart Config=TransactionsEvolution  Height="250" Width="250" />
+        </div>
+    </div>
 }
