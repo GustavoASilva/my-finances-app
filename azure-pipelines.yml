@@ -13,7 +13,7 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build image
+  displayName: Build
   jobs:
   - job: Build
     displayName: Build
@@ -37,11 +37,12 @@ stages:
     - task: Docker@2
       displayName: Build API Image
       inputs:
-        command: build
+        containerRegistry: 'dockerhub'
+        repository: 'gustavoavilasilva/myfinancesapi'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/MyFinances'
-        dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.API/Dockerfile'
-        tags: |
-          $(tag)
+        tags: '$(tag)'
 
     # - task: Docker@2
     #   displayName: Build Blazor Server Image
