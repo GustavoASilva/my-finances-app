@@ -43,14 +43,14 @@ stages:
         tags: |
           $(tag)
 
-    - task: Docker@2
-      displayName: Build Blazor Server Image
-      inputs:
-        command: build
-        buildContext: '$(Build.SourcesDirectory)/MyFinances'
-        dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazor/Server/Dockerfile'
-        tags: |
-          $(tag)
+    # - task: Docker@2
+    #   displayName: Build Blazor Server Image
+    #   inputs:
+    #     command: build
+    #     buildContext: '$(Build.SourcesDirectory)/MyFinances'
+    #     dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazor/Server/Dockerfile'
+    #     tags: |
+    #       $(tag)
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerhub'
