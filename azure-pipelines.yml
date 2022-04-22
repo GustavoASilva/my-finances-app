@@ -54,7 +54,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'dockerhub'
-        repository: 'myfinancesapi'
+        repository: 'gustavoavilasilva/myfinancesapi'
         command: 'push'
 
     - task: AzureRmWebAppDeployment@4
