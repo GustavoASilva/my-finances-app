@@ -1,0 +1,68 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    
+    # - task: DotNetCoreCLI@2
+    #   displayName: Build all projects
+    #   inputs:
+    #     command: 'build'
+    #     projects: '**/*.csproj'
+
+    # - task: DotNetCoreCLI@2
+    #   displayName: Run all Unit Tests
+    #   inputs:
+    #     command: 'test'
+    #     projects: '$(Build.SourcesDirectory)/MyFinances/tests/**/*.csproj'
+    #     testRunTitle: 'Running all unit tests'
+
+    - task: Docker@2
+      displayName: Build API Image
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: 'gustavoavilasilva/myfinancesapi'
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)/MyFinances'
+        tags: '$(tag)'
+
+    # - task: Docker@2
+    #   displayName: Build Blazor Server Image
+    #   inputs:
+    #     command: build
+    #     buildContext: '$(Build.SourcesDirectory)/MyFinances'
+    #     dockerfile: '$(Build.SourcesDirectory)/MyFinances/src/MyFinances.Blazor/Server/Dockerfile'
+    #     tags: |
+    #       $(tag)
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: gustavoavilasilva/myfinancesapi
+        command: 'push'
+
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'MyFinances-RG'
+        appType: 'webAppContainer'
+        WebAppName: 'myfinancesapi'
+        DockerNamespace: 'myfinancesapi'
+        DockerRepository: 'docker pull gustavoavilasilva/myfinancesapi'
