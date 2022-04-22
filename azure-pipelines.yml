@@ -66,3 +66,4 @@ stages:
         WebAppName: 'myfinancesapi'
         DockerNamespace: 'myfinancesapi'
         DockerRepository: 'docker pull gustavoavilasilva/myfinancesapi'
+        DockerImageTag: $(tag)
