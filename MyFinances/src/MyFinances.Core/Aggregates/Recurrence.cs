@@ -5,26 +5,23 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
-        public Recurrence(DateTime start,
-                          DateTime end,
+        public Recurrence(DateOnly start,
+                          DateOnly end,
                           int daysInterval,
                           decimal value,
                           int transactionCategoryId,
-                          string description,
+                          string name,
                           int householdId,
                           int originId)
         {
-            DateOnly startDate = DateOnly.FromDateTime(start);
-            DateOnly endDate = DateOnly.FromDateTime(end);
-
-            Start = startDate;
-            End = endDate;
+            Start = start;
+            End = end;
             DaysInterval = daysInterval;
             Value = value;
-            Name = description;
+            Name = name;
             HouseholdId = householdId;
             OriginId = originId;
-            NextOccurrence = startDate;
+            NextOccurrence = start;
             _transactionCategoryId = transactionCategoryId;
         }
 

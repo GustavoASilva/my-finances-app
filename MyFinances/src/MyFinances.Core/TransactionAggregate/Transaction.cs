@@ -41,7 +41,7 @@ namespace MyFinances.Core.TransactionAggregate
         public decimal Value { get; private set; }
         public string Description { get; private set; }
         public TransactionCategory Category { get; set; } = default!;
-        public int HouseholdId { get; }
+        public int HouseholdId { get; private set; }
         public int OriginId { get; private set; }
         public DateTime EstimatedDate { get; private set; }
         public DateTime? ConfirmedDate { get; private set; }

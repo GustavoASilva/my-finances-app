@@ -36,7 +36,14 @@ namespace MyFinances.API.Controllers
         public async Task<ActionResult<RecurrenceDto>> Post([FromBody] CreateRecurrenceRequest recurrence)
         {
             var householdId = 1;
-            var toModel = new Recurrence(recurrence.Start, recurrence.End, recurrence.DaysInterval, recurrence.Value, recurrence.TransactionCategoryId, recurrence.Name, householdId, recurrence.OriginId);
+            var toModel = new Recurrence(DateOnly.FromDateTime(recurrence.Start),
+                                         DateOnly.FromDateTime(recurrence.End),
+                                         recurrence.DaysInterval,
+                                         recurrence.Value,
+                                         recurrence.TransactionCategoryId,
+                                         recurrence.Name,
+                                         householdId,
+                                         recurrence.OriginId);
 
             var created = await _recurrenceRepository.AddAsync(toModel);
 
