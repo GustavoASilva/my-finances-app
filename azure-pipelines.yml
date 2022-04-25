@@ -55,6 +55,7 @@ stages:
     #     tags: |
     #       $(tag)
     - task: Docker@2
+      displayName: Push myfinancesapi Image
       inputs:
         containerRegistry: 'dockerhub'
         repository: gustavoavilasilva/myfinancesapi
@@ -66,6 +67,6 @@ stages:
         azureSubscription: 'MyFinances-RG'
         appType: 'webAppContainer'
         WebAppName: 'myfinancesapi'
-        DockerNamespace: 'myfinancesapi'
-        DockerRepository: 'docker pull gustavoavilasilva/myfinancesapi'
+        DockerNamespace: 'gustavoavilasilva'
+        DockerRepository: 'myfinancesapi'
         DockerImageTag: $(tag)
