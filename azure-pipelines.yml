@@ -42,7 +42,7 @@ stages:
         containerRegistry: 'dockerhub'
         repository: 'gustavoavilasilva/myfinancesapi'
         command: 'build'
-        Dockerfile: 'src/MyFinances.API/Dockerfile'
+        Dockerfile: '**/src/MyFinances.API/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/MyFinances'
         tags: '$(tag)'
 
@@ -52,7 +52,7 @@ stages:
         containerRegistry: 'dockerhub'
         repository: 'gustavoavilasilva/myfinancesblazorserver'
         command: 'build'
-        Dockerfile: 'src/MyFinances.Blazor/Server/Dockerfile'
+        Dockerfile: '**/src/MyFinances.Blazor/Server/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/MyFinances'
         tags: '$(tag)'
           
