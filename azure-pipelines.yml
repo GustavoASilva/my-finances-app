@@ -85,7 +85,7 @@ stages:
         ConnectionType: 'AzureRM'
         azureSubscription: 'MyFinances-RG'
         appType: 'webAppContainer'
-        WebAppName: 'myfinancesblazorserver'
+        WebAppName: 'myfinancesapp'
         DockerNamespace: 'gustavoavilasilva'
         DockerRepository: 'myfinancesblazorserver'
         DockerImageTag: $(tag)
