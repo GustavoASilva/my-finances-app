@@ -67,6 +67,6 @@ stages:
         azureSubscription: 'MyFinances-RG'
         appType: 'webAppContainer'
         WebAppName: 'myfinancesapi'
-        DockerNamespace: 'myfinancesapi'
-        DockerRepository: 'docker pull gustavoavilasilva/myfinancesapi'
+        DockerNamespace: 'gustavoavilasilva'
+        DockerRepository: 'myfinancesapi'
         DockerImageTag: $(tag)
