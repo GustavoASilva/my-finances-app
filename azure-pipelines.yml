@@ -55,6 +55,7 @@ stages:
     #     tags: |
     #       $(tag)
     - task: Docker@2
+      displayName: Push myfinancesapi Image
       inputs:
         containerRegistry: 'dockerhub'
         repository: gustavoavilasilva/myfinancesapi
