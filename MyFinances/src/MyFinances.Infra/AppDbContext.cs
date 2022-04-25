@@ -33,12 +33,15 @@ namespace MyFinances.Infra
 
             var entitiesWithEvents = ChangeTracker
                 .Entries()
-                .Select(e => (BaseEntity<Guid>)e.Entity)
-                .Where(e => e.DomainEvents != null && e.DomainEvents.Any())
+                .Select(e => e.Entity as BaseEntity<Guid>)
+                .Where(e => e != null && e.DomainEvents != null && e.DomainEvents.Any())
                 .ToArray();
 
             foreach (var entity in entitiesWithEvents)
             {
+                if (entity == null)
+                    continue;
+
                 var events = entity.DomainEvents.ToArray();
 
                 entity.DomainEvents.Clear();

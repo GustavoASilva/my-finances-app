@@ -5,6 +5,10 @@ namespace MyFinances.Core.SyncedAggregates
 {
     public class Recurrence : BaseEntity<Guid>, IAggregateRoot
     {
+        public Recurrence()
+        {
+        }
+
         public Recurrence(DateOnly start,
                           DateOnly end,
                           int daysInterval,
@@ -32,7 +36,7 @@ namespace MyFinances.Core.SyncedAggregates
         public int DaysInterval { get; private set; }
         public decimal Value { get; private set; }
         public TransactionCategory TransactionCategory { get; private set; } = default!;
-        public string Name { get; private set; }
+        public string Name { get; private set; } = default!;
         public int HouseholdId { get; private set; }
         public int OriginId { get; private set; }
         private int _transactionCategoryId;

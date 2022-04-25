@@ -6,6 +6,10 @@ namespace MyFinances.Core.TransactionAggregate
 {
     public class Transaction : BaseEntity<Guid>, IAggregateRoot
     {
+        public Transaction()
+        {
+        }
+
         public Transaction(decimal value,
                            int categoryId,
                            int householdId,
@@ -36,7 +40,7 @@ namespace MyFinances.Core.TransactionAggregate
             EstimatedDate = estimatedDate;
             OriginId = originId;
             _categoryId = categoryId;
-        }
+        }       
 
         public decimal Value { get; private set; }
         public string Description { get; private set; }
