@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyFinances.Core;
+using MyFinances.Core.Aggregates;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Core.TransactionAggregate;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace MyFinances.Infra
         public DbSet<Transaction> Transactions => Set<Transaction>();
         public DbSet<Origin> Origins => Set<Origin>();
         public DbSet<Recurrence> Recurrences => Set<Recurrence>();
+        public DbSet<User> Users => Set<User>();
 
         private readonly IMediator _mediator;
 

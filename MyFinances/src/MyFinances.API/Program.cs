@@ -6,6 +6,7 @@ using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Infra;
 using MyFinances.Infra.Repositories;
+using MyFinances.Infra.Services;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -15,6 +16,7 @@ builder.Services.Configure<RouteOptions>(cfg => cfg.LowercaseUrls = true);
 
 builder.Services.AddLogging();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 string connectionString = builder.Configuration.GetConnectionString("MYFINANCES_DB");
 
