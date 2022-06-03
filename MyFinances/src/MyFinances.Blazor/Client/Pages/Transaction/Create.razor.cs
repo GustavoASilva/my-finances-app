@@ -19,8 +19,8 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
         NavigationManager NavigationManager { get; set; } = default!;
 
         public TransactionCreateDto Model = new();
-        public IEnumerable<OriginDto> Origins { get; private set; } = new List<OriginDto>();
-        public IEnumerable<TransactionCategory> Categories { get; private set; } = new List<TransactionCategory>();
+        public IEnumerable<OriginDto> Origins = new List<OriginDto>();
+        public IEnumerable<TransactionCategory> Categories = new List<TransactionCategory>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -37,8 +37,8 @@ namespace MyFinances.Blazor.Client.Pages.Transaction
                                                         Model.CategoryId,
                                                         Model.OriginId);
 
-            TransactionDto? transaction = await TransactionService.CreateAsync(requestModel);
-            if (transaction != null)
+            bool created = await TransactionService.CreateAsync(requestModel);
+            if (created)
                 NavigationManager.NavigateTo("/transaction");
         }
     }

@@ -20,8 +20,8 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
 
 
         public RecurrenceCreateDto Model = new();
-        public List<OriginDto> Origins { get; private set; } = new List<OriginDto>();
-        public List<TransactionCategory> Categories = new List<TransactionCategory>();
+        public IEnumerable<OriginDto> Origins = new List<OriginDto>();
+        public IEnumerable<TransactionCategory> Categories = new List<TransactionCategory>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -42,10 +42,10 @@ namespace MyFinances.Blazor.Client.Pages.Recurrence
                 OriginId = Model.OriginId,
             };
 
-            var createdDto = await RecurrenceService.CreateAsync(requestModel);
-            if (createdDto != null)
-                NavigationManager.NavigateTo("/recurrence");
+            bool created = await RecurrenceService.CreateAsync(requestModel);
 
+            if (created)
+                NavigationManager.NavigateTo("/recurrence");
         }
     }
 }
