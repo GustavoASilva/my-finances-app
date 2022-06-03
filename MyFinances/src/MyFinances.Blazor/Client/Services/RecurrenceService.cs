@@ -1,23 +1,22 @@
-﻿using MyFinances.Blazor.Shared.Recurrence;
-using System.Net.Http.Json;
+﻿using MyFinances.Blazor.Client.Repositories;
+using MyFinances.Blazor.Shared.Recurrence;
 
 namespace MyFinances.Blazor.Client.Services
 {
     public class RecurrenceService
     {
-        private static string Resource = "recurrences";
-        private readonly HttpClient _httpClient;
+        private readonly IMyFinancesApi _myFinancesApi;
 
-        public RecurrenceService(HttpClient httpClient)
+        public RecurrenceService(IMyFinancesApi myFinancesApi)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _myFinancesApi = myFinancesApi;
         }
 
         public async Task<List<RecurrenceDto>> ListAsync()
         {
-            List<RecurrenceDto> result = new List<RecurrenceDto>();
+            List<RecurrenceDto> result = new();
 
-            var response = await _httpClient.GetFromJsonAsync<ListRecurrencesResponse>(Resource);
+            var response = await _myFinancesApi.GetRecurrencesAsync();
 
             if (response != null)
                 result = response.Recurrences;
@@ -25,21 +24,17 @@ namespace MyFinances.Blazor.Client.Services
             return result;
         }
 
-        public async Task<RecurrenceDto?> CreateAsync(CreateRecurrenceRequest request)
+        public async Task<bool> CreateAsync(CreateRecurrenceRequest request)
         {
-            RecurrenceDto? result = null;
+            var response = await _myFinancesApi.PostRecurrenceAsync(request);
 
-            var response = await _httpClient.PostAsJsonAsync(Resource, request);
-
-            if (response.IsSuccessStatusCode)
-                result = await response.Content.ReadFromJsonAsync<RecurrenceDto>();
-
-            return result;
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            await _httpClient.DeleteAsync($"{Resource}/{id}");
+            var response = await _myFinancesApi.DeleteRecurrenceAsync(id);
+            return response.IsSuccessStatusCode;
         }
     }
 }
