@@ -20,7 +20,7 @@ namespace MyFinances.API.Controllers
             _tokenService = tokenService;
         }
 
-        [HttpPost]
+        [HttpPost("token")]
         public async Task<IActionResult> Token(GenerateTokenRequest generateTokenRequest)
         {
             FindByLoginAndPasswordSpec spec = new (generateTokenRequest.Username, generateTokenRequest.Password);

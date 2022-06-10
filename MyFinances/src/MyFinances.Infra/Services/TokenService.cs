@@ -19,7 +19,7 @@ namespace MyFinances.Infra.Services
         public TokenDto GenerateToken(User user)
         {
             JwtSecurityTokenHandler tokenHandler = new();
-            string key = Configuration.GetSection("JwtKey").Value;
+            string key = Configuration.GetSection("JwtConfig:Key").Value;
             byte[] keyBytes = Encoding.ASCII.GetBytes(key);
 
             SecurityTokenDescriptor tokenDescriptor = new()
