@@ -2,6 +2,7 @@ using AspNetCoreRateLimit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyFinances.API;
@@ -89,23 +90,14 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 
 byte[] key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Key").Value);
 
-builder.Services.AddAuthentication(x =>
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddMicrosoftIdentityWebApi(options =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
+    builder.Configuration.Bind("AzureAd", options);
 
+    options.TokenValidationParameters.NameClaimType = "name";
+},
+options => { builder.Configuration.Bind("AzureAd", options); });
 
 var assemblies = new Assembly[]
 {
