@@ -32,32 +32,18 @@ if (!builder.Environment.IsDevelopment())
     builder.Services.AddInMemoryRateLimiting();
     builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
-    builder.Services.AddSwaggerGen(c =>
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(options =>
     {
-        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            In = ParameterLocation.Header,
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer",
-            BearerFormat = "JWT",
-        });
+        builder.Configuration.Bind("AzureAd", options);
 
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-    });
+        options.TokenValidationParameters.NameClaimType = "name";
+    },
+    options => { builder.Configuration.Bind("AzureAd", options); });
+}
+else
+{
+    builder.Services.AddSwaggerGen();
 }
 
 builder.Services.Configure<RouteOptions>(cfg => cfg.LowercaseUrls = true);
@@ -87,15 +73,6 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.AllowAnyMethod();
 }));
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddMicrosoftIdentityWebApi(options =>
-{
-    builder.Configuration.Bind("AzureAd", options);
-
-    options.TokenValidationParameters.NameClaimType = "name";
-},
-options => { builder.Configuration.Bind("AzureAd", options); });
-
 var assemblies = new Assembly[]
 {
     typeof(AppDbContext).Assembly,
@@ -108,6 +85,9 @@ var app = builder.Build();
 
 app.MigrateDatabase<AppDbContext>();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -117,10 +97,9 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseIpRateLimiting();
-    app.UseAuthentication();
-    app.UseAuthorization();
     app.MapControllers();
-    app.UseCors();
 }
+
+app.UseCors();
 
 app.Run();
