@@ -1,23 +1,22 @@
-﻿using MyFinances.Blazor.Shared.Origin;
-using System.Net.Http.Json;
+﻿using MyFinances.Blazor.Client.Repositories;
+using MyFinances.Blazor.Shared.Origin;
 
 namespace MyFinances.Blazor.Client.Services
 {
     public class OriginService
     {
-        private static string Resource = "origins";
-        private readonly HttpClient _httpClient;
+        private readonly IMyFinancesApi _myFinancesApi;
 
-        public OriginService(HttpClient httpClient)
+        public OriginService(IMyFinancesApi myFinancesApi)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _myFinancesApi = myFinancesApi;
         }
 
         public async Task<List<OriginDto>> ListAsync()
         {
-            List<OriginDto> result = new List<OriginDto>();
+            List<OriginDto> result = new();
 
-            var response = await _httpClient.GetFromJsonAsync<ListOriginsResponse>(Resource);
+            var response = await _myFinancesApi.GetOriginsAsync();
 
             if (response != null)
                 result = response.Origins;
@@ -25,21 +24,17 @@ namespace MyFinances.Blazor.Client.Services
             return result;
         }
 
-        public async Task<OriginDto?> CreateAsync(CreateOriginRequest request)
+        public async Task<bool> CreateAsync(CreateOriginRequest request)
         {
-            OriginDto? result = null;
+            var response = await _myFinancesApi.PostOriginAsync(request);
 
-            var response = await _httpClient.PostAsJsonAsync(Resource, request);
-
-            if (response.IsSuccessStatusCode)
-                result = await response.Content.ReadFromJsonAsync<OriginDto>();
-
-            return result;
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            await _httpClient.DeleteAsync($"{Resource}/{id}");
+            var response = await _myFinancesApi.DeleteOriginAsync(id);
+            return response.IsSuccessStatusCode;
         }
     }
 }

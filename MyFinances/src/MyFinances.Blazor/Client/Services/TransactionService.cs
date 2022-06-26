@@ -1,23 +1,22 @@
-﻿using MyFinances.Blazor.Shared.Transaction;
-using System.Net.Http.Json;
+﻿using MyFinances.Blazor.Client.Repositories;
+using MyFinances.Blazor.Shared.Transaction;
 
 namespace MyFinances.Blazor.Client.Services
 {
     public class TransactionService
     {
-        private static string Resource = "transactions";
-        private readonly HttpClient _httpClient;
+        private readonly IMyFinancesApi _myFinancesApi;
 
-        public TransactionService(HttpClient httpClient)
+        public TransactionService(IMyFinancesApi myFinancesApi)
         {
-            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _myFinancesApi = myFinancesApi;
         }
 
         public async Task<List<TransactionDto>> ListAsync()
         {
             List<TransactionDto> result = new List<TransactionDto>();
 
-            var response = await _httpClient.GetFromJsonAsync<ListTransactionsResponse>(Resource);
+            var response = await _myFinancesApi.GetTransactionsAsync();
 
             if (response != null)
                 result = response.Transactions;
@@ -25,30 +24,22 @@ namespace MyFinances.Blazor.Client.Services
             return result;
         }
 
-        public async Task<TransactionDto?> CreateAsync(CreateTransactionRequest request)
+        public async Task<bool> CreateAsync(CreateTransactionRequest request)
         {
-            TransactionDto? result = null;
-
-            var response = await _httpClient.PostAsJsonAsync(Resource, request);
-
-            if (response.IsSuccessStatusCode)
-                result = await response.Content.ReadFromJsonAsync<TransactionDto>();
-
-            return result;
+            var response = await _myFinancesApi.PostTransactionAsync(request);
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> PatchAsync(Guid id, PatchTransactionRequest request)
         {
-            await _httpClient.DeleteAsync($"{Resource}/{id}");
+            var response = await _myFinancesApi.PatchTransactionAsync(id, request);
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task PatchAsync(Guid id, PatchTransactionRequest request)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-
-            var jsonRequest = JsonContent.Create(request);
-
-
-            await _httpClient.PatchAsync($"{Resource}/{id}", jsonRequest);
+            var response = await _myFinancesApi.DeleteTransactionAsync(id);
+            return response.IsSuccessStatusCode;
         }
     }
 }

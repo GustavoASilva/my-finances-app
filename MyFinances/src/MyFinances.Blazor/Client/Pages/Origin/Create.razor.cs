@@ -19,9 +19,9 @@ namespace MyFinances.Blazor.Client.Pages.Origin
         {
             var createRequest = new CreateOriginRequest(Model.Alias);
 
-            OriginDto? origin = await OriginService.CreateAsync(createRequest);
+            bool created = await OriginService.CreateAsync(createRequest);
 
-            if (origin != null)
+            if (created)
                 NavigationManager.NavigateTo("/origin");
         }
     }
