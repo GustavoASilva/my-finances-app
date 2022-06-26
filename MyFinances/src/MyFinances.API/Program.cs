@@ -1,5 +1,9 @@
+using AspNetCoreRateLimit;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 using MyFinances.API;
 using MyFinances.API.Profiles;
 using MyFinances.Core.Interfaces;
@@ -10,6 +14,37 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddOptions();
+
+    // needed to store rate limit counters and ip rules
+    builder.Services.AddMemoryCache();
+
+    //load general configuration from appsettings.json
+    builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+
+    //load ip rules from appsettings.json
+    builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+
+    // inject counter and rules stores
+    builder.Services.AddInMemoryRateLimiting();
+    builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(options =>
+    {
+        builder.Configuration.Bind("AzureAd", options);
+
+        options.TokenValidationParameters.NameClaimType = "name";
+    },
+    options => { builder.Configuration.Bind("AzureAd", options); });
+}
+else
+{
+    builder.Services.AddSwaggerGen();
+}
 
 builder.Services.Configure<RouteOptions>(cfg => cfg.LowercaseUrls = true);
 
@@ -29,8 +64,6 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
     opts.JsonSerializerOptions.Converters.Add(enumConverter);
 });
 
-builder.Services.AddSwaggerGen();
-
 string blazorUrl = builder.Configuration.GetValue<string>("BLAZOR_URL") ?? "*";
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
@@ -41,25 +74,31 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 }));
 
 var assemblies = new Assembly[]
-      {
-        typeof(AppDbContext).Assembly,
-        typeof(Recurrence).Assembly
-      };
+{
+    typeof(AppDbContext).Assembly,
+    typeof(Recurrence).Assembly
+};
 
 builder.Services.AddMediatR(assemblies);
 
 var app = builder.Build();
+
 app.MigrateDatabase<AppDbContext>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapControllers().AllowAnonymous();
 }
-
-app.UseAuthorization();
-
-app.MapControllers();
+else
+{
+    app.UseIpRateLimiting();
+    app.MapControllers();
+}
 
 app.UseCors();
 

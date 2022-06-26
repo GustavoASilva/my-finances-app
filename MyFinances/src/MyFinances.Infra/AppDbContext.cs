@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MyFinances.Core;
+using MyFinances.Core.Aggregates;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Core.TransactionAggregate;
 using System.Reflection;

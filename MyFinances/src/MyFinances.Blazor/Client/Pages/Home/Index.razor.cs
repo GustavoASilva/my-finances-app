@@ -18,13 +18,18 @@ namespace MyFinances.Blazor.Client.Pages.Home
         {
             Transactions = await TransactionService.ListAsync();
 
-            foreach (TransactionDto transaction in Transactions)
-            {
-                if (transaction.ConfirmedDate != null)
-                    ActualBalance += transaction.Value;
+            /// TODO: Calculate balance in another endpoint or service
 
-                EstimatedBalance += transaction.Value;
-            }
+            ActualBalance = Transactions
+                .Where(t => t.ConfirmedDate is not null)
+                .Sum(t => t.Value);
+            
+            var today = DateTime.Now;
+
+            EstimatedBalance = Transactions
+                .Where(t => t.EstimatedDate.Month == today.Month
+                            && t.EstimatedDate.Year == today.Year)
+                .Sum(t => t.Value);
         }
     }
 }

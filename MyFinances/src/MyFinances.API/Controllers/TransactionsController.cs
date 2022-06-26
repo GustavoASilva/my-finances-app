@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.Blazor.Shared.Transaction;
 using MyFinances.Core.Interfaces;
@@ -8,6 +9,7 @@ using MyFinances.Core.TransactionAggregate.Specification;
 
 namespace MyFinances.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
