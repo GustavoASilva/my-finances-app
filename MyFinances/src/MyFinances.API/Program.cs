@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyFinances.API;
 using MyFinances.API.Profiles;
@@ -11,33 +10,60 @@ using MyFinances.Core.Interfaces;
 using MyFinances.Core.SyncedAggregates;
 using MyFinances.Infra;
 using MyFinances.Infra.Repositories;
-using MyFinances.Infra.Services;
 using System.Reflection;
-using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOptions();
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddOptions();
 
-// needed to store rate limit counters and ip rules
-builder.Services.AddMemoryCache();
+    // needed to store rate limit counters and ip rules
+    builder.Services.AddMemoryCache();
 
-//load general configuration from appsettings.json
-builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+    //load general configuration from appsettings.json
+    builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 
-//load ip rules from appsettings.json
-builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+    //load ip rules from appsettings.json
+    builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
 
-// inject counter and rules stores
-builder.Services.AddInMemoryRateLimiting();
-builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+    // inject counter and rules stores
+    builder.Services.AddInMemoryRateLimiting();
+    builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+        });
+
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    });
+}
 
 builder.Services.Configure<RouteOptions>(cfg => cfg.LowercaseUrls = true);
 
 builder.Services.AddLogging();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-builder.Services.AddScoped<ITokenService, TokenService>();
 
 string connectionString = builder.Configuration.GetConnectionString("MYFINANCES_DB");
 
@@ -52,33 +78,6 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
     opts.JsonSerializerOptions.Converters.Add(enumConverter);
 });
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-
 string blazorUrl = builder.Configuration.GetValue<string>("BLAZOR_URL") ?? "*";
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
@@ -87,8 +86,6 @@ builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
     policy.AllowAnyHeader();
     policy.AllowAnyMethod();
 }));
-
-byte[] key = Encoding.ASCII.GetBytes(builder.Configuration.GetSection("JwtConfig:Key").Value);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddMicrosoftIdentityWebApi(options =>
@@ -109,20 +106,21 @@ builder.Services.AddMediatR(assemblies);
 
 var app = builder.Build();
 
-app.UseIpRateLimiting();
 app.MigrateDatabase<AppDbContext>();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.MapControllers().AllowAnonymous();
 }
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.UseCors();
+else
+{
+    app.UseIpRateLimiting();
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.MapControllers();
+    app.UseCors();
+}
 
 app.Run();
