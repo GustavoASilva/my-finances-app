@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFinances.Blazor.Shared.Origin;
 using MyFinances.Core.Aggregates.Specifications;
@@ -7,6 +8,7 @@ using MyFinances.Core.SyncedAggregates;
 
 namespace MyFinances.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OriginsController : ControllerBase

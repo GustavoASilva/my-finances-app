@@ -1,4 +1,5 @@
-﻿using MyFinances.Blazor.Client.Repositories;
+﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using MyFinances.Blazor.Client.Repositories;
 using MyFinances.Blazor.Shared.Transaction;
 
 namespace MyFinances.Blazor.Client.Services
@@ -14,14 +15,25 @@ namespace MyFinances.Blazor.Client.Services
 
         public async Task<List<TransactionDto>> ListAsync()
         {
-            List<TransactionDto> result = new List<TransactionDto>();
+            try
+            {
+                List<TransactionDto> result = new List<TransactionDto>();
 
-            var response = await _myFinancesApi.GetTransactionsAsync();
+                var response = await _myFinancesApi.GetTransactionsAsync();
 
-            if (response != null)
-                result = response.Transactions;
+                if (response != null)
+                    result = response.Transactions;
 
-            return result;
+                return result;
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                throw exception;
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
         }
 
         public async Task<bool> CreateAsync(CreateTransactionRequest request)
